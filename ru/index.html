@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин оборудования — AurinkoLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F4F2EA;
+            color: #3A3831;
+            overflow-x: hidden;
+        }
+
+        .heading-font { font-family: 'Space Grotesk', sans-serif; }
+
+        /* Custom scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Form Inputs */
+        input, select, textarea {
+            background-color: transparent !important;
+            border: 1px solid #D8D3C4 !important;
+            color: #3A3831 !important;
+        }
+        input::placeholder, textarea::placeholder { color: #A39E8F !important; }
+        input:focus, select:focus, textarea:focus {
+            border-color: #3A3831 !important;
+            outline: none;
+            box-shadow: none !important;
+        }
+        
+        /* Modal Scrollbar */
+        .modal-scroll::-webkit-scrollbar { width: 6px; }
+        .modal-scroll::-webkit-scrollbar-track { background: transparent; }
+        .modal-scroll::-webkit-scrollbar-thumb { background: #D8D3C4; border-radius: 10px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#EBE7D9] selection:text-[#3A3831]">
+
+    <!-- Top Banner -->
+    <div class="bg-[#EBE7D9] text-xs md:text-sm py-2.5 px-4 text-center border-b border-[#D8D3C4]">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-2.5 md:gap-4 font-medium text-[#5C594E] tracking-wide">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F2EA] border border-[#D8D3C4] font-semibold tracking-wider uppercase text-[10px]">
+                AurinkoLab Store
+            </span>
+            <span class="hidden sm:inline text-[#D8D3C4]">•</span>
+            <span class="text-[#5C594E]">Оборудование для курсов и учебные материалы <strong class="text-[#3A3831]">прямо от создателей</strong></span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-[#F4F2EA]/90 backdrop-blur-md border-b border-[#D8D3C4]">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="https://espoo.aurinkolab.fi" class="flex items-center space-x-3">
+                    <div class="w-11 h-11 bg-[#EBE7D9] rounded-xl border border-[#D8D3C4] flex items-center justify-center font-bold text-[#3A3831] text-2xl">
+                        A
+                    </div>
+                    <span class="heading-font font-bold text-2xl tracking-tight text-[#3A3831]">Aurinko<span class="font-normal">Lab</span>
+                    <span class="block text-[8px] tracking-[.3em] text-[#5C594E] uppercase -mt-1">Магазин • Комплекты</span></span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8 font-semibold text-[#5C594E] text-sm">
+                    <a href="#kits" class="hover:text-[#3A3831] transition-colors">Наборы для курсов</a>
+                    <a href="#parts" class="hover:text-[#3A3831] transition-colors">Комплектующие</a>
+                    <a href="#rental" class="hover:text-[#3A3831] transition-colors">Аренда</a>
+                    <a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831] transition-colors">Главная Эспоо</a>
+                    
+                    <a href="#" onclick="openOrderModal(event, 'Общий запрос в магазин')" class="bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] px-5 py-2.5 rounded-xl font-bold transition-all">
+                        Связаться / Заказать
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <button id="menu-btn" class="md:hidden flex flex-col justify-between w-8 h-6 focus:outline-none">
+                    <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
+                    <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
+                    <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#F4F2EA] border-b border-[#D8D3C4] absolute w-full">
+            <div class="flex flex-col space-y-4 p-6 font-semibold text-[#5C594E]">
+                <a href="#kits" class="hover:text-[#3A3831]">Наборы для курсов</a>
+                <a href="#parts" class="hover:text-[#3A3831]">Комплектующие</a>
+                <a href="#rental" class="hover:text-[#3A3831]">Аренда</a>
+                <a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831]">Главная Эспоо</a>
+                <a href="#" onclick="openOrderModal(event, 'Общий запрос в магазин')" class="bg-[#EBE7D9] text-[#3A3831] border border-[#D8D3C4] px-4 py-3 rounded-xl text-center">Заказать</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 pb-16 px-6 max-w-7xl mx-auto text-center reveal">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[10px] font-bold uppercase tracking-wider text-[#827D70] mb-4">
+            Каталог AurinkoLab
+        </span>
+        <h1 class="heading-font text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#3A3831] tracking-tight leading-[1.02] mb-6">
+            Комплекты оборудования <br> и учебные материалы
+        </h1>
+        <p class="text-lg text-[#5C594E] max-w-2xl mx-auto">
+            Проверенные на практике STEM-наборы, инженерные комплекты, сопутствующие материалы и компоненты для классов и индивидуальных проектов. Разработано AurinkoLab.
+        </p>
+    </section>
+
+    <!-- Main Store Section -->
+    <section id="kits" class="py-12 px-6 max-w-7xl mx-auto reveal">
+        <div class="mb-12">
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Инженерные наборы и учебные курсы</h2>
+            <p class="text-[#5C594E] text-sm">Включают аппаратную часть (комплектующие) и полные методические материалы.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Item 1 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Solar Boat</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Solar Electric Boat</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Полный комплект оборудования и учебных материалов для сборки управляемой модели лодки на солнечных батареях.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">📦 Комплект + Мануал</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Возраст 15+</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Solar Electric Boat (15+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить комплект
+                </button>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Go-Kart</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Solar Electric Go-Kart</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Профессиональный набор для сборки солнечного электрокартинга. Включает раму, электромоторы, батарейные блоки и схему монтажа.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">📦 Полный набор</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Возраст 12+</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Solar Electric Go-Kart (12+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить комплект
+                </button>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Robotics</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Robotics Engineering</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Комплект для изучения робототехники с нуля: датчики, контроллеры, исполнительные механизмы и пошаговые проектные уроки.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">📦 Набор + Учебник</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Возраст 11+</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Robotics Engineering (11+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить комплект
+                </button>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Microbot</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Computer Vision with Microbot</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Продвинутый комплект для интеграции компьютерного зрения и микроробототехники (камеры, процессоры, алгоритмы распознавания).
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">📦 AI Hardware Kit</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Продвинутый</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Computer Vision with Microbot')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить комплект
+                </button>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-2xl text-[#3A3831]">AI & ML</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">AI and Machine Learning</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Комплект учебных материалов, лабораторных заданий и программных библиотек для глубокого погружения в машинное обучение и искусственный интеллект.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">📄 Учебные материалы</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Курс / Софт</span>
+                </div>
+                <button onclick="openOrderModal(event, 'AI and Machine Learning Materials')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить материалы
+                </button>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-2xl text-[#3A3831]">STEM</span>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Hands-on STEM</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Универсальный набор для практических занятий естественными науками, физикой и механикой для юных исследователей.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">📦 STEM Kit</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Базовый / Средний</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Hands-on STEM Kit')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить комплект
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Rental & Parts Section -->
+    <section id="parts" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal">
+        <div class="mb-12">
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Аренда оборудования и запчасти</h2>
+            <p class="text-[#5C594E] text-sm">Специализированные компоненты для модернизации и арендные решения для образовательных центров.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+            <!-- Rental Item -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-xl text-[#3A3831]">Rental</span>
+                </div>
+                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Lego AI and Science (Аренда)</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Доступные комплекты Lego AI & Science в аренду для кружков, лагерных смен и школьных проектов с полным набором методик.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">🔄 Условия аренды</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Аренда</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Lego AI and Science (Rent)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить аренду
+                </button>
+            </div>
+
+            <!-- Part Item 1 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-xl text-[#3A3831]">Hardware</span>
+                </div>
+                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Additional Motor Wheels</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Дополнительные мотор-колеса высокой мощности для электрических карт и робототехнических платформ собственной сборки.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">⚙️ Компонент</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Запчасть</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Additional Motor Wheels')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Заказать деталь
+                </button>
+            </div>
+
+            <!-- Part Item 2 -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
+                    <span class="heading-font font-bold text-xl text-[#3A3831]">Structure</span>
+                </div>
+                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Steels for Karts</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
+                    Специальные стальные профили, рамы и заготовки для конструирования надежных корпусов картинга в рамках мастерских.
+                </p>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold text-[#827D70]">🔩 Материалы</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Металл / Рама</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Steels for Karts')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Заказать материалы
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#D8D3C4] py-16 px-6 text-[#827D70] bg-[#F4F2EA]">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 text-sm">
+            <div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-[#EBE7D9] border border-[#D8D3C4] rounded-xl flex items-center justify-center">
+                        <span class="text-[#3A3831] font-bold text-lg">A</span>
+                    </div>
+                    <span class="heading-font text-[#3A3831] font-bold text-xl">AurinkoLab Store</span>
+                </div>
+                <p class="text-[#5C594E]">Оборудование и материалы для инновационного обучения.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-[#3A3831] mb-4 uppercase tracking-wider">Навигация</h4>
+                <ul class="space-y-3">
+                    <li><a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831] transition">Кампус в Эспоо</a></li>
+                    <li><a href="https://camps.aurinkolab.fi" class="hover:text-[#3A3831] transition">Летние лагеря</a></li>
+                    <li><a href="https://project.aurinkolab.fi" class="hover:text-[#3A3831] transition">Проекты Go-Kart</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-[#3A3831] mb-4 uppercase tracking-wider">Контакты</h4>
+                <ul class="space-y-3">
+                    <li><a href="mailto:info@aurinkolab.fi" class="hover:text-[#3A3831] transition">info@aurinkolab.fi</a></li>
+                    <li><a href="tel:+358453123388" class="hover:text-[#3A3831] transition">+358 45 3123388</a></li>
+                    <li>Vanhan-Mankkaan kuja 2, Эспоо</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-[#3A3831] mb-4 uppercase tracking-wider">Предоставлено</h4>
+                <p class="text-[#5C594E]">Все комплекты и материалы разработаны и предоставлены объединением <strong>AurinkoLab</strong>.</p>
+            </div>
+        </div>
+
+        <div class="mt-12 border-t border-[#D8D3C4] pt-6 text-center">
+            <p class="text-[#827D70] text-xs">&copy; 2026 AurinkoLab Store. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- ORDER / INQUIRY MODAL -->
+    <div id="orderModal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-[#3A3831]/40 backdrop-blur-sm transition-opacity" onclick="closeOrderModal()">
+        <div class="bg-[#F4F2EA] border border-[#D8D3C4] p-8 rounded-[2rem] max-w-lg w-full mx-4 relative shadow-2xl max-h-[90vh] overflow-y-auto modal-scroll" onclick="event.stopPropagation()">
+            
+            <button onclick="closeOrderModal()" class="absolute top-6 right-6 text-[#827D70] hover:text-[#3A3831] transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <h3 class="heading-font text-3xl font-bold text-[#3A3831] mb-2 text-center">Запрос комплекта</h3>
+            <p class="text-xs text-[#827D70] text-center mb-6">Заполните форму, и мы свяжемся с вами для уточнения деталей доставки и оплаты.</p>
+            
+            <form action="https://formspree.io/f/xwleoqdd" method="POST" class="space-y-5">
+                <div>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Ваше имя или название организации</label>
+                    <input type="text" name="name" required class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Иван / Школа №...">
+                </div>
+
+                <div>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Эл. почта</label>
+                    <input type="email" name="email" required class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="email@example.com">
+                </div>
+
+                <div>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Выбранный товар / комплект</label>
+                    <input type="text" id="productInput" name="product" required class="w-full rounded-xl px-4 py-3 transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Комментарий / Количество</label>
+                    <textarea name="message" rows="3" class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Укажите количество комплектов или вопросы по доставке..."></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-4 rounded-xl transition-all mt-2">
+                    Отправить запрос
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Modal logic
+        function openOrderModal(e, productName = '') {
+            if(e) e.preventDefault();
+            const modal = document.getElementById('orderModal');
+            const productInput = document.getElementById('productInput');
+            if(productInput) productInput.value = productName || 'Общий запрос';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeOrderModal() {
+            const modal = document.getElementById('orderModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Mobile menu toggle
+        const btn = document.getElementById("menu-btn");
+        const menu = document.getElementById("mobile-menu");
+        const lines = btn.querySelectorAll("span");
+
+        if(btn && menu) {
+            btn.addEventListener("click", () => {
+                menu.classList.toggle("hidden");
+                lines[0].classList.toggle("rotate-45");
+                lines[0].classList.toggle("translate-y-2");
+                lines[1].classList.toggle("opacity-0");
+                lines[2].classList.toggle("-rotate-45");
+                lines[2].classList.toggle("-translate-y-2");
+            });
+        }
+
+        // Scroll reveal logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
