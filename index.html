@@ -39,14 +39,297 @@
             outline: none;
             box-shadow: none !important;
         }
-        
+
         /* Modal Scrollbar */
         .modal-scroll::-webkit-scrollbar { width: 6px; }
         .modal-scroll::-webkit-scrollbar-track { background: transparent; }
         .modal-scroll::-webkit-scrollbar-thumb { background: #D8D3C4; border-radius: 10px; }
+
+        /* "What's in the box" disclosure */
+        summary { list-style: none; cursor: pointer; }
+        summary::-webkit-details-marker { display: none; }
+        .chev { transition: transform .3s ease; }
+        details[open] .chev { transform: rotate(180deg); }
+
+        /* Product artwork */
+        .art { width: 100%; height: 100%; display: block; }
+        .art-frame {
+            background-color: #EBE7D9;
+            border: 1px solid #D8D3C4;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        :focus-visible { outline: 2px solid #3A3831; outline-offset: 2px; border-radius: 4px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-[#EBE7D9] selection:text-[#3A3831]">
+
+<!-- ============================================================
+     PRODUCT ARTWORK SPRITE
+     All illustrations are inline SVG, so nothing loads from outside.
+     To swap in a real photo later, replace the <svg class="art">…</svg>
+     block inside a card with:  <img src="photos/your-photo.jpg" class="art object-cover" alt="...">
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+
+    <!-- SOLAR BOAT KIT -->
+    <symbol id="art-boat" viewBox="0 0 320 160">
+      <g stroke="#D9A441" stroke-width="3" stroke-linecap="round">
+        <line x1="266" y1="8" x2="266" y2="16"/><line x1="266" y1="56" x2="266" y2="64"/>
+        <line x1="238" y1="36" x2="246" y2="36"/><line x1="286" y1="36" x2="294" y2="36"/>
+        <line x1="246" y1="16" x2="252" y2="22"/><line x1="280" y1="50" x2="286" y2="56"/>
+        <line x1="286" y1="16" x2="280" y2="22"/><line x1="252" y1="50" x2="246" y2="56"/>
+      </g>
+      <circle cx="266" cy="36" r="14" fill="#E8BC63"/>
+      <line x1="124" y1="92" x2="124" y2="110" stroke="#3A3831" stroke-width="3"/>
+      <line x1="200" y1="76" x2="200" y2="110" stroke="#3A3831" stroke-width="3"/>
+      <polygon points="96,86 206,62 224,70 114,94" fill="#4B5A66" stroke="#3A3831" stroke-width="2" stroke-linejoin="round"/>
+      <g stroke="#8FA3AF" stroke-width="1.5" opacity=".9">
+        <line x1="118" y1="81" x2="136" y2="89"/><line x1="140" y1="76" x2="158" y2="84"/>
+        <line x1="162" y1="72" x2="180" y2="80"/><line x1="184" y1="67" x2="202" y2="75"/>
+        <line x1="105" y1="90" x2="215" y2="66"/>
+      </g>
+      <path d="M54,108 L268,108 C258,134 244,142 232,142 L96,142 C74,142 60,128 54,108 Z" fill="#C9A87C" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="66" y1="120" x2="252" y2="120" stroke="#3A3831" stroke-width="1.5" opacity=".45"/>
+      <rect x="136" y="94" width="46" height="16" rx="3" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <path d="M0,126 Q26,118 52,126 T104,126 T156,126 T208,126 T260,126 T312,126 L320,126 L320,160 L0,160 Z" fill="#9FB3BE" opacity=".65"/>
+      <g stroke="#F4F2EA" stroke-width="2.5" stroke-linecap="round" opacity=".8">
+        <line x1="30" y1="140" x2="66" y2="140"/><line x1="252" y1="146" x2="292" y2="146"/>
+      </g>
+    </symbol>
+
+    <!-- GO-KART KIT -->
+    <symbol id="art-kart" viewBox="0 0 320 160">
+      <line x1="128" y1="60" x2="128" y2="108" stroke="#3A3831" stroke-width="3"/>
+      <line x1="204" y1="44" x2="204" y2="86" stroke="#3A3831" stroke-width="3"/>
+      <polygon points="100,60 210,36 228,44 118,68" fill="#4B5A66" stroke="#3A3831" stroke-width="2" stroke-linejoin="round"/>
+      <g stroke="#8FA3AF" stroke-width="1.5" opacity=".9">
+        <line x1="122" y1="55" x2="140" y2="63"/><line x1="144" y1="50" x2="162" y2="58"/>
+        <line x1="166" y1="45" x2="184" y2="53"/><line x1="188" y1="41" x2="206" y2="49"/>
+        <line x1="109" y1="64" x2="219" y2="40"/>
+      </g>
+      <path d="M58,106 L262,106 L272,112 L262,124 L58,124 Z" fill="#C4653F" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M96,106 L96,74 Q96,66 106,66 L120,66 L120,106 Z" fill="#EBE7D9" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="62" y="84" width="30" height="22" rx="4" fill="#3A3831"/>
+      <line x1="70" y1="80" x2="70" y2="84" stroke="#3A3831" stroke-width="3"/>
+      <line x1="84" y1="80" x2="84" y2="84" stroke="#3A3831" stroke-width="3"/>
+      <line x1="168" y1="104" x2="192" y2="86" stroke="#3A3831" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="196" cy="84" rx="16" ry="5" fill="none" stroke="#3A3831" stroke-width="3.5" transform="rotate(-24 196 84)"/>
+      <circle cx="84" cy="122" r="26" fill="#3A3831"/>
+      <circle cx="84" cy="122" r="11" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="240" cy="124" r="21" fill="#3A3831"/>
+      <circle cx="240" cy="124" r="9" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+    </symbol>
+
+    <!-- ROBOTICS / ROBOT SOCCER -->
+    <symbol id="art-robot" viewBox="0 0 320 160">
+      <line x1="150" y1="44" x2="150" y2="22" stroke="#3A3831" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="150" cy="19" r="5" fill="#C4653F"/>
+      <rect x="88" y="94" width="16" height="38" rx="7" fill="#3A3831"/>
+      <rect x="196" y="94" width="16" height="38" rx="7" fill="#3A3831"/>
+      <rect x="98" y="56" width="104" height="76" rx="16" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <rect x="90" y="44" width="120" height="16" rx="8" fill="#3A3831"/>
+      <g fill="#4B5A66">
+        <circle cx="118" cy="76" r="6"/><circle cx="136" cy="76" r="6"/>
+        <circle cx="164" cy="76" r="6"/><circle cx="182" cy="76" r="6"/>
+      </g>
+      <rect x="126" y="94" width="48" height="18" rx="4" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <line x1="134" y1="103" x2="166" y2="103" stroke="#A39E8F" stroke-width="2"/>
+      <rect x="106" y="126" width="88" height="10" rx="5" fill="#C4653F" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="256" cy="112" r="22" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <g fill="#3A3831">
+        <polygon points="256,100 264,106 261,116 251,116 248,106"/>
+        <circle cx="240" cy="122" r="4"/><circle cx="272" cy="122" r="4"/><circle cx="256" cy="132" r="4"/>
+      </g>
+      <line x1="40" y1="144" x2="288" y2="144" stroke="#A39E8F" stroke-width="2" stroke-dasharray="8 8"/>
+    </symbol>
+
+    <!-- MICROBOT / COMPUTER VISION -->
+    <symbol id="art-microbot" viewBox="0 0 320 160">
+      <polygon points="186,66 286,34 286,98 186,66" fill="#9FB3BE" opacity=".45"/>
+      <rect x="104" y="78" width="104" height="42" rx="10" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <rect x="132" y="42" width="52" height="38" rx="8" fill="#3A3831"/>
+      <circle cx="166" cy="61" r="13" fill="#4B5A66" stroke="#EBE7D9" stroke-width="2"/>
+      <circle cx="166" cy="61" r="6" fill="#9FB3BE"/>
+      <circle cx="162" cy="57" r="2.5" fill="#F4F2EA"/>
+      <g fill="#C4653F"><circle cx="118" cy="92" r="4"/><circle cx="130" cy="92" r="4"/></g>
+      <rect x="146" y="92" width="52" height="14" rx="3" fill="#EBE7D9" stroke="#3A3831" stroke-width="1.5"/>
+      <circle cx="122" cy="126" r="16" fill="#3A3831"/>
+      <circle cx="122" cy="126" r="6" fill="#EBE7D9"/>
+      <circle cx="192" cy="126" r="16" fill="#3A3831"/>
+      <circle cx="192" cy="126" r="6" fill="#EBE7D9"/>
+      <g stroke="#3A3831" stroke-width="2" opacity=".6">
+        <line x1="228" y1="52" x2="244" y2="52"/><line x1="228" y1="66" x2="252" y2="66"/><line x1="228" y1="80" x2="240" y2="80"/>
+      </g>
+    </symbol>
+
+    <!-- AI & MACHINE LEARNING -->
+    <symbol id="art-ai" viewBox="0 0 320 160">
+      <g stroke="#B0AA98" stroke-width="1.5">
+        <line x1="92" y1="46" x2="164" y2="34"/><line x1="92" y1="46" x2="164" y2="72"/>
+        <line x1="92" y1="46" x2="164" y2="110"/><line x1="92" y1="46" x2="164" y2="140"/>
+        <line x1="92" y1="88" x2="164" y2="34"/><line x1="92" y1="88" x2="164" y2="72"/>
+        <line x1="92" y1="88" x2="164" y2="110"/><line x1="92" y1="88" x2="164" y2="140"/>
+        <line x1="92" y1="130" x2="164" y2="34"/><line x1="92" y1="130" x2="164" y2="72"/>
+        <line x1="92" y1="130" x2="164" y2="110"/><line x1="92" y1="130" x2="164" y2="140"/>
+        <line x1="164" y1="34" x2="236" y2="66"/><line x1="164" y1="34" x2="236" y2="110"/>
+        <line x1="164" y1="72" x2="236" y2="66"/><line x1="164" y1="72" x2="236" y2="110"/>
+        <line x1="164" y1="110" x2="236" y2="66"/><line x1="164" y1="110" x2="236" y2="110"/>
+        <line x1="164" y1="140" x2="236" y2="66"/><line x1="164" y1="140" x2="236" y2="110"/>
+      </g>
+      <g fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5">
+        <circle cx="92" cy="46" r="10"/><circle cx="92" cy="88" r="10"/><circle cx="92" cy="130" r="10"/>
+        <circle cx="164" cy="34" r="10"/><circle cx="164" cy="110" r="10"/><circle cx="164" cy="140" r="10"/>
+        <circle cx="236" cy="110" r="10"/>
+      </g>
+      <g fill="#3A3831"><circle cx="164" cy="72" r="10"/><circle cx="236" cy="66" r="10"/></g>
+      <g fill="#C4653F"><circle cx="92" cy="88" r="4"/><circle cx="236" cy="110" r="4"/></g>
+    </symbol>
+
+    <!-- HANDS-ON STEM -->
+    <symbol id="art-stem" viewBox="0 0 320 160">
+      <g transform="translate(224,90)">
+        <g fill="#3A3831">
+          <rect x="-6" y="-44" width="12" height="15" rx="2"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(45)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(90)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(135)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(180)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(225)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(270)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(315)"/>
+        </g>
+        <circle r="32" fill="#3A3831"/>
+        <circle r="14" fill="#EBE7D9"/>
+      </g>
+      <path d="M84,26 L84,66 L58,120 Q54,132 66,132 L126,132 Q138,132 134,120 L108,66 L108,26 Z" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M70,100 L122,100 Q134,128 126,130 L66,130 Q58,128 70,100 Z" fill="#7FA08D"/>
+      <g fill="#F4F2EA" opacity=".9">
+        <circle cx="88" cy="112" r="4"/><circle cx="104" cy="120" r="3"/><circle cx="98" cy="106" r="2.5"/>
+      </g>
+      <line x1="78" y1="26" x2="114" y2="26" stroke="#3A3831" stroke-width="5" stroke-linecap="round"/>
+      <g transform="translate(168,44)" stroke="#C4653F" stroke-width="2.5" fill="none">
+        <ellipse rx="24" ry="9"/><ellipse rx="24" ry="9" transform="rotate(60)"/><ellipse rx="24" ry="9" transform="rotate(120)"/>
+      </g>
+      <circle cx="168" cy="44" r="5" fill="#C4653F"/>
+    </symbol>
+
+    <!-- LEGO AI & SCIENCE (RENTAL) -->
+    <symbol id="art-lego" viewBox="0 0 320 160">
+      <g fill="#6E8CA0" stroke="#3A3831" stroke-width="2.5">
+        <rect x="128" y="34" width="20" height="16" rx="4"/><rect x="160" y="34" width="20" height="16" rx="4"/>
+      </g>
+      <rect x="118" y="48" width="76" height="34" rx="5" fill="#6E8CA0" stroke="#3A3831" stroke-width="2.5"/>
+      <g fill="#C4653F" stroke="#3A3831" stroke-width="2.5">
+        <rect x="98" y="70" width="20" height="16" rx="4"/><rect x="130" y="70" width="20" height="16" rx="4"/>
+        <rect x="162" y="70" width="20" height="16" rx="4"/><rect x="194" y="70" width="20" height="16" rx="4"/>
+      </g>
+      <rect x="88" y="84" width="136" height="36" rx="5" fill="#C4653F" stroke="#3A3831" stroke-width="2.5"/>
+      <g transform="translate(258,96)">
+        <rect x="-20" y="-20" width="40" height="40" rx="5" fill="#3A3831"/>
+        <rect x="-9" y="-9" width="18" height="18" rx="3" fill="#EBE7D9"/>
+        <g stroke="#3A3831" stroke-width="3" stroke-linecap="round">
+          <line x1="-26" y1="-10" x2="-20" y2="-10"/><line x1="-26" y1="0" x2="-20" y2="0"/><line x1="-26" y1="10" x2="-20" y2="10"/>
+          <line x1="20" y1="-10" x2="26" y2="-10"/><line x1="20" y1="0" x2="26" y2="0"/><line x1="20" y1="10" x2="26" y2="10"/>
+        </g>
+      </g>
+      <line x1="60" y1="132" x2="260" y2="132" stroke="#A39E8F" stroke-width="2" stroke-dasharray="8 8"/>
+    </symbol>
+
+    <!-- MOTOR WHEELS -->
+    <symbol id="art-wheel" viewBox="0 0 320 160">
+      <circle cx="150" cy="80" r="62" fill="#3A3831"/>
+      <circle cx="150" cy="80" r="56" fill="none" stroke="#5C594E" stroke-width="5" stroke-dasharray="9 9"/>
+      <circle cx="150" cy="80" r="42" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <g stroke="#3A3831" stroke-width="4" stroke-linecap="round">
+        <line x1="150" y1="42" x2="150" y2="62"/><line x1="150" y1="98" x2="150" y2="118"/>
+        <line x1="112" y1="80" x2="132" y2="80"/><line x1="168" y1="80" x2="188" y2="80"/>
+        <line x1="123" y1="53" x2="137" y2="67"/><line x1="163" y1="93" x2="177" y2="107"/>
+        <line x1="177" y1="53" x2="163" y2="67"/><line x1="137" y1="93" x2="123" y2="107"/>
+      </g>
+      <circle cx="150" cy="80" r="20" fill="#4B5A66" stroke="#3A3831" stroke-width="2.5"/>
+      <circle cx="150" cy="80" r="7" fill="#EBE7D9"/>
+      <path d="M212,80 C240,80 248,60 276,60" fill="none" stroke="#3A3831" stroke-width="4" stroke-linecap="round"/>
+      <rect x="272" y="50" width="20" height="20" rx="4" fill="#C4653F" stroke="#3A3831" stroke-width="2.5"/>
+    </symbol>
+
+    <!-- STEEL PROFILES -->
+    <symbol id="art-steel" viewBox="0 0 320 160">
+      <g stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M56,40 L240,28 L262,36 L78,48 Z" fill="#C9C3B2"/>
+        <path d="M56,40 L56,60 L78,68 L78,48 Z" fill="#A39E8F"/>
+        <path d="M78,48 L262,36 L262,56 L78,68 Z" fill="#B9B3A2"/>
+        <path d="M48,84 L232,74 L256,84 L72,94 Z" fill="#C9C3B2"/>
+        <path d="M48,84 L48,102 L72,112 L72,94 Z" fill="#A39E8F"/>
+        <path d="M72,94 L256,84 L256,102 L72,112 Z" fill="#B9B3A2"/>
+        <path d="M62,124 L228,118 L248,126 L82,132 Z" fill="#C9C3B2"/>
+        <path d="M62,124 L62,138 L82,146 L82,132 Z" fill="#A39E8F"/>
+        <path d="M82,132 L248,126 L248,140 L82,146 Z" fill="#B9B3A2"/>
+      </g>
+    </symbol>
+
+    <!-- READY-MADE GO-KART -->
+    <symbol id="art-kart-ready" viewBox="0 0 320 160">
+      <g transform="translate(268,26)">
+        <line x1="0" y1="0" x2="0" y2="52" stroke="#3A3831" stroke-width="3" stroke-linecap="round"/>
+        <rect x="2" y="0" width="36" height="24" fill="#F4F2EA" stroke="#3A3831" stroke-width="2"/>
+        <g fill="#3A3831">
+          <rect x="2" y="0" width="12" height="8"/><rect x="26" y="0" width="12" height="8"/>
+          <rect x="14" y="8" width="12" height="8"/><rect x="2" y="16" width="12" height="8"/>
+          <rect x="26" y="16" width="12" height="8"/>
+        </g>
+      </g>
+      <path d="M42,110 C42,96 60,92 84,92 L140,92 L156,74 L196,74 L206,92 L246,92 C266,92 276,100 276,112 L276,124 L42,124 Z" fill="#C4653F" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M120,92 L120,58 Q120,48 132,48 L150,48 L150,92 Z" fill="#EBE7D9" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="122" y="34" width="30" height="16" rx="6" fill="#3A3831"/>
+      <line x1="176" y1="88" x2="196" y2="70" stroke="#3A3831" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="200" cy="68" rx="15" ry="5" fill="none" stroke="#3A3831" stroke-width="3.5" transform="rotate(-24 200 68)"/>
+      <circle cx="86" cy="124" r="25" fill="#3A3831"/>
+      <circle cx="86" cy="124" r="10" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="242" cy="126" r="21" fill="#3A3831"/>
+      <circle cx="242" cy="126" r="9" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <line x1="24" y1="150" x2="296" y2="150" stroke="#A39E8F" stroke-width="2"/>
+    </symbol>
+
+    <!-- READY-MADE SOLAR BOAT -->
+    <symbol id="art-boat-ready" viewBox="0 0 320 160">
+      <circle cx="272" cy="30" r="13" fill="#E8BC63"/>
+      <g transform="translate(44,20)">
+        <line x1="0" y1="0" x2="0" y2="88" stroke="#3A3831" stroke-width="3" stroke-linecap="round"/>
+        <rect x="2" y="0" width="33" height="22" fill="#F4F2EA" stroke="#3A3831" stroke-width="2"/>
+        <g fill="#3A3831">
+          <rect x="2" y="0" width="11" height="7.3"/><rect x="24" y="0" width="11" height="7.3"/>
+          <rect x="13" y="7.3" width="11" height="7.3"/><rect x="2" y="14.6" width="11" height="7.4"/>
+          <rect x="24" y="14.6" width="11" height="7.4"/>
+        </g>
+      </g>
+      <line x1="120" y1="80" x2="120" y2="106" stroke="#3A3831" stroke-width="3"/>
+      <line x1="216" y1="66" x2="216" y2="106" stroke="#3A3831" stroke-width="3"/>
+      <polygon points="106,80 216,54 236,62 126,88" fill="#4B5A66" stroke="#3A3831" stroke-width="2" stroke-linejoin="round"/>
+      <g stroke="#8FA3AF" stroke-width="1.5" opacity=".9">
+        <line x1="128" y1="75" x2="148" y2="83"/><line x1="150" y1="70" x2="170" y2="78"/>
+        <line x1="172" y1="64" x2="192" y2="72"/><line x1="194" y1="59" x2="214" y2="67"/>
+        <line x1="116" y1="84" x2="226" y2="58"/>
+      </g>
+      <path d="M72,104 L272,104 C262,130 248,138 236,138 L112,138 C90,138 78,124 72,104 Z" fill="#C9A87C" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="140" y="88" width="56" height="16" rx="3" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="168" cy="96" r="4" fill="#3A3831"/>
+      <path d="M0,122 Q26,114 52,122 T104,122 T156,122 T208,122 T260,122 T312,122 L320,122 L320,160 L0,160 Z" fill="#9FB3BE" opacity=".65"/>
+      <g stroke="#F4F2EA" stroke-width="3" stroke-linecap="round" opacity=".85">
+        <line x1="22" y1="136" x2="64" y2="136"/><line x1="40" y1="148" x2="96" y2="148"/>
+        <line x1="252" y1="142" x2="298" y2="142"/>
+      </g>
+    </symbol>
+
+  </defs>
+</svg>
 
     <!-- Top Banner -->
     <div class="bg-[#EBE7D9] text-xs md:text-sm py-2.5 px-4 text-center border-b border-[#D8D3C4]">
@@ -59,7 +342,7 @@
         </div>
     </div>
 
-    <!-- Navigation -->
+<!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-[#F4F2EA]/90 backdrop-blur-md border-b border-[#D8D3C4]">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -73,19 +356,31 @@
                 </a>
 
                 <!-- Desktop Nav -->
-                <div class="hidden md:flex items-center space-x-6 lg:space-x-8 font-semibold text-[#5C594E] text-sm">
+                <div class="hidden md:flex items-center space-x-5 lg:space-x-7 font-semibold text-[#5C594E] text-sm">
                     <a href="#kits" class="hover:text-[#3A3831] transition-colors">Course Kits</a>
+                    <a href="#ready" class="hover:text-[#3A3831] transition-colors">Ready-Made</a>
                     <a href="#parts" class="hover:text-[#3A3831] transition-colors">Components</a>
-                    <a href="#rental" class="hover:text-[#3A3831] transition-colors">Rental</a>
-                    <a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831] transition-colors">Espoo Home</a>
-                    
+                    <a href="#pricelist" class="hover:text-[#3A3831] transition-colors">Price List</a>
+
                     <a href="#" onclick="openOrderModal(event, 'General Store Inquiry')" class="bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] px-5 py-2.5 rounded-xl font-bold transition-all">
                         Contact / Order
                     </a>
+
+                    <!-- Language Selector (Desktop) -->
+                    <div class="relative">
+                        <button id="lang-btn" class="flex items-center space-x-1.5 text-[#3A3831] hover:text-[#827D70] transition-colors font-bold bg-[#F4F2EA] border border-[#D8D3C4] px-3 py-1.5 rounded-lg">
+                            <span id="current-lang" class="text-xs">EN</span>
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-32 bg-[#F4F2EA] border border-[#D8D3C4] rounded-xl shadow-xl overflow-hidden z-50">
+                            <a href="index.html" class="block px-4 py-2 text-sm text-[#3A3831] hover:bg-[#EBE7D9] transition-colors">English</a>
+                            <a href="./ru/index.html" class="block px-4 py-2 text-sm text-[#3A3831] hover:bg-[#EBE7D9] transition-colors">Русский</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile Hamburger -->
-                <button id="menu-btn" class="md:hidden flex flex-col justify-between w-8 h-6 focus:outline-none">
+                <button id="menu-btn" class="md:hidden flex flex-col justify-between w-8 h-6 focus:outline-none" aria-label="Open menu">
                     <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
                     <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
                     <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
@@ -97,18 +392,28 @@
         <div id="mobile-menu" class="hidden md:hidden bg-[#F4F2EA] border-b border-[#D8D3C4] absolute w-full">
             <div class="flex flex-col space-y-4 p-6 font-semibold text-[#5C594E]">
                 <a href="#kits" class="hover:text-[#3A3831]">Course Kits</a>
-                <a href="#parts" class="hover:text-[#3A3831]">Components</a>
-                <a href="#rental" class="hover:text-[#3A3831]">Rental</a>
+                <a href="#ready" class="hover:text-[#3A3831]">Ready-Made Vehicles</a>
+                <a href="#parts" class="hover:text-[#3A3831]">Components & Rental</a>
+                <a href="#pricelist" class="hover:text-[#3A3831]">Price List</a>
                 <a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831]">Espoo Home</a>
                 <a href="#" onclick="openOrderModal(event, 'General Store Inquiry')" class="bg-[#EBE7D9] text-[#3A3831] border border-[#D8D3C4] px-4 py-3 rounded-xl text-center">Order Now</a>
+
+                <!-- Language Selector (Mobile) -->
+                <div class="border-t border-[#D8D3C4] pt-4 mt-2">
+                    <p class="text-[#827D70] text-xs uppercase tracking-wider mb-3">Language / Язык</p>
+                    <div class="flex flex-col space-y-2">
+                        <a href="index.html" class="hover:text-[#3A3831]">English</a>
+                        <a href="/ru/index.html" class="hover:text-[#3A3831]">Русский</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-20 pb-16 px-6 max-w-7xl mx-auto text-center reveal">
+    <section class="pt-20 pb-12 px-6 max-w-7xl mx-auto text-center reveal">
         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[10px] font-bold uppercase tracking-wider text-[#827D70] mb-4">
-            AurinkoLab Catalog
+            AurinkoLab Catalog 2026
         </span>
         <h1 class="heading-font text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#3A3831] tracking-tight leading-[1.02] mb-6">
             Equipment Kits & <br> Learning Materials
@@ -116,122 +421,316 @@
         <p class="text-lg text-[#5C594E] max-w-2xl mx-auto">
             Field-tested STEM kits, engineering hardware, accompanying materials, and components for classrooms and individual projects. Provided by AurinkoLab.
         </p>
+
+        <!-- Quick facts -->
+        <div class="mt-10 grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
+            <div class="bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl p-5">
+                <p class="heading-font text-2xl font-extrabold text-[#3A3831]">420 – 5 300 €</p>
+                <p class="text-xs text-[#5C594E] mt-1">Build kits, everything in one box</p>
+            </div>
+            <div class="bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl p-5">
+                <p class="heading-font text-2xl font-extrabold text-[#3A3831]">Free</p>
+                <p class="text-xs text-[#5C594E] mt-1">AI/ML course &amp; STEM workshops</p>
+            </div>
+            <div class="bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl p-5">
+                <p class="heading-font text-2xl font-extrabold text-[#3A3831]">1 950 € / 3 600 €</p>
+                <p class="text-xs text-[#5C594E] mt-1">Ready-made kart &amp; boat</p>
+            </div>
+        </div>
     </section>
 
     <!-- Main Store Section -->
-    <section id="kits" class="py-12 px-6 max-w-7xl mx-auto reveal">
+    <section id="kits" class="py-12 px-6 max-w-7xl mx-auto reveal scroll-mt-24">
         <div class="mb-12">
             <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Engineering Kits & Courses</h2>
-            <p class="text-[#5C594E] text-sm">Includes hardware components and comprehensive step-by-step methodology manuals.</p>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Every kit arrives in one box with all parts needed to finish the build, plus a step-by-step manual and teacher methodology. Prices in EUR; delivery and VAT are confirmed in the written offer.</p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- Item 1 -->
+            <!-- Item 1 — Solar Boat -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Solar Boat</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Solar electric boat kit"><use href="#art-boat"/></svg>
                 </div>
                 <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Solar Electric Boat</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Complete equipment and learning materials kit to build and operate a solar-powered model boat.
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Complete equipment and learning materials kit to build and operate a solar-powered boat. Plywood, assembly jig, solar panels, battery and steel — all in one box.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">5 300 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ full set</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>What's in the box</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Marine plywood, pre-cut hull panels</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Assembly jig (stapel) for building the hull</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Solar panels + MPPT charge controller</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Battery pack with BMS and charger</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Steel and aluminium frame parts, brackets, shaft support</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Electric motor, propeller and drive shaft</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Motor controller, throttle, wiring, switches and fuses</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Steering set: rudder, tiller and linkage</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Epoxy, sealant, fibreglass tape and fasteners</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Build manual and teacher methodology</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">📦 Kit + Manual</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Ages 15+</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Solar Electric Boat (15+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Solar Electric Boat Kit — 5 300 €')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Request Kit
                 </button>
             </div>
 
-            <!-- Item 2 -->
+            <!-- Item 2 — Go-Kart Kit -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Go-Kart</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Solar electric go-kart kit"><use href="#art-kart"/></svg>
                 </div>
                 <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Solar Electric Go-Kart</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Professional-grade build kit for a solar electric go-kart. Includes frame elements, electric motors, battery packs, and assembly diagrams.
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Full build kit for a solar electric go-kart: steel chassis material, motor wheels, battery pack, electronics and assembly drawings.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">2 200 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ full set</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>What's in the box</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Pre-cut steel profiles for the chassis</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Motor wheels with mounts</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Battery pack and charger</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Solar panel with charge controller</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Motor controller and throttle pedal</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Steering set: wheel, column, tie rods, stub axles</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Brake set and pedal</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Seat and safety belt</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Wiring loom, fuses, main switch</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Fasteners, drawings and build manual</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">📦 Full Build Kit</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Ages 12+</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Solar Electric Go-Kart (12+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Solar Electric Go-Kart Kit — 2 200 €')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Request Kit
                 </button>
             </div>
 
-            <!-- Item 3 -->
+            <!-- Item 3 — Robotics -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Robotics</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Robot soccer competition robot"><use href="#art-robot"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Robotics Engineering</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Kit for learning robotics from scratch: sensors, controllers, actuators, and step-by-step project lessons.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Robotics — Hackathon &amp; Robot Soccer</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Competition kit for engineering hackathons and robot soccer tournaments. One set builds one complete robot.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">850 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ per robot</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>What's in the box</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Robot chassis and mounting plates</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Omni wheels, motors and motor drivers</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Controller board with programming cable</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Ball, line and distance sensors, compass module</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Kicker and dribbler mechanism</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Battery, charger and wiring</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Spare parts and assembly tools</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Hackathon rules pack and coach methodology</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">📦 Kit + Textbook</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Ages 11+</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Robotics Engineering (11+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Robotics — Hackathon / Robot Soccer — 850 € per robot')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Request Kit
                 </button>
             </div>
 
-            <!-- Item 4 -->
+            <!-- Item 4 — Microbot -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Microbot</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Microbot computer vision robot"><use href="#art-microbot"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Computer Vision with Microbot</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Advanced kit integrating computer vision and micro-robotics (cameras, processors, object recognition algorithms).
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Computer Vision with Microbit</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Advanced kit joining computer vision and micro-robotics: camera, on-board processor, sensors and object-recognition projects.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">420 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ per unit</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>What's in the box</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Single-board computer with camera module</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Microbot chassis, motors and wheels</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Motor driver, sensors and LED indicators</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Battery, charger and cables</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Memory card with pre-installed vision software</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Project workbook with lesson plans</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">📦 AI Hardware Kit</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Advanced</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Computer Vision with Microbot')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Computer Vision with Microbot — 420 € per unit')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Request Kit
                 </button>
             </div>
 
-            <!-- Item 5 -->
+            <!-- Item 5 — AI & ML (free) -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">AI & ML</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Neural network diagram"><use href="#art-ai"/></svg>
                 </div>
                 <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">AI and Machine Learning</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Comprehensive learning materials, lab tasks, and software libraries for an immersive dive into machine learning and artificial intelligence.
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Course materials, lab tasks and software libraries for a full dive into machine learning and artificial intelligence.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">Free</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ course</span>
+                </div>
+                <p class="text-xs text-[#827D70] leading-relaxed mb-5 bg-[#EBE7D9] border border-[#D8D3C4] rounded-xl px-4 py-3">
+                    Open to schools and individual learners at no cost. Send a request to reserve a group place.
+                </p>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">📄 Learning Materials</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Course / Software</span>
                 </div>
-                <button onclick="openOrderModal(event, 'AI and Machine Learning Materials')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'AI and Machine Learning course — Free')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Request Materials
                 </button>
             </div>
 
-            <!-- Item 6 -->
+            <!-- Item 6 — STEM (free) -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">STEM</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Science flask, gear and atom"><use href="#art-stem"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Hands-on STEM</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Universal kit for practical lessons in natural sciences, physics, and mechanics for young researchers.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Hands-on STEM Workshops</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Practical workshops in natural sciences, physics and mechanics for young researchers — run at your school or at our Espoo lab.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">📦 STEM Kit</span>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">Free</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ workshop</span>
+                </div>
+                <p class="text-xs text-[#827D70] leading-relaxed mb-5 bg-[#EBE7D9] border border-[#D8D3C4] rounded-xl px-4 py-3">
+                    No fee for the workshop. Tell us your group size and preferred dates and we will confirm a slot.
+                </p>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">🔬 Workshop</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Basic / Intermediate</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Hands-on STEM Kit')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
-                    Request Kit
+                <button onclick="openOrderModal(event, 'Hands-on STEM Workshop — Free')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Request Materials
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Ready-Made Vehicles -->
+    <section id="ready" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal scroll-mt-24">
+        <div class="mb-12">
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Ready-Made Vehicles</h2>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Built and tested in our workshop, delivered assembled and ready to use. No build time needed — a good choice for demo days, camps and open events.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <!-- Ready Go-Kart -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="art-frame h-52 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Assembled electric go-kart"><use href="#art-kart-ready"/></svg>
+                </div>
+                <div class="flex items-start justify-between gap-4 mb-2">
+                    <h3 class="heading-font text-2xl font-bold text-[#3A3831]">Go-Kart, Ready to Drive</h3>
+                    <span class="shrink-0 px-3 py-1 rounded-full bg-[#3A3831] text-[#F4F2EA] text-[10px] font-bold uppercase tracking-wider">Assembled</span>
+                </div>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    A fully assembled electric go-kart from our workshop: welded chassis, motor wheels, battery, controller, steering and brakes — tested and ready to drive on delivery.
+                </p>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">1 950 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ per kart</span>
+                </div>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">🏁 Built &amp; Tested</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Ages 12+</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Ready-Made Go-Kart — 1 950 € per kart')" class="w-full bg-[#3A3831] hover:bg-[#5C594E] text-[#F4F2EA] font-bold py-3 rounded-xl transition-all">
+                    Buy Ready Go-Kart
+                </button>
+            </div>
+
+            <!-- Ready Boat -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="art-frame h-52 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Assembled solar electric boat"><use href="#art-boat-ready"/></svg>
+                </div>
+                <div class="flex items-start justify-between gap-4 mb-2">
+                    <h3 class="heading-font text-2xl font-bold text-[#3A3831]">Solar Boat, Ready to Sail</h3>
+                    <span class="shrink-0 px-3 py-1 rounded-full bg-[#3A3831] text-[#F4F2EA] text-[10px] font-bold uppercase tracking-wider">Assembled</span>
+                </div>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    A finished solar electric boat: sealed plywood hull, solar panels, battery, motor and steering installed and water-tested by our team.
+                </p>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">3 600 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ per boat</span>
+                </div>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">⛵ Built &amp; Water-Tested</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Ages 15+</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Ready-Made Solar Boat — 3 600 € per boat')" class="w-full bg-[#3A3831] hover:bg-[#5C594E] text-[#F4F2EA] font-bold py-3 rounded-xl transition-all">
+                    Buy Ready Boat
                 </button>
             </div>
 
@@ -239,68 +738,177 @@
     </section>
 
     <!-- Rental & Parts Section -->
-    <section id="parts" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal">
+    <section id="parts" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal scroll-mt-24">
         <div class="mb-12">
             <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Equipment Rental & Spare Parts</h2>
-            <p class="text-[#5C594E] text-sm">Specialized components for custom builds and flexible rental solutions for educational centers.</p>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Components for custom builds and rental options for schools and learning centres. Prices depend on quantity and rental period — send a request and we reply with an offer.</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div id="rental" class="grid md:grid-cols-3 gap-8 scroll-mt-24">
 
             <!-- Rental Item -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-xl text-[#3A3831]">Rental</span>
+                <div class="art-frame h-36 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Lego bricks with AI chip"><use href="#art-lego"/></svg>
                 </div>
                 <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Lego AI and Science (Rent)</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Available Lego AI & Science kits for rent to support clubs, camp sessions, and school projects with full methodology included.
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Lego AI &amp; Science kits for rent — for clubs, camp sessions and school projects, with full methodology included.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                <div class="mb-5">
+                    <span class="heading-font text-2xl font-extrabold text-[#3A3831]">Rent on request</span>
+                    <p class="text-xs text-[#827D70] mt-1">Price set by kit count and rental period</p>
+                </div>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">🔄 Rental Terms</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Rental</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Lego AI and Science (Rent)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Lego AI and Science — rental, price on request')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Request Rental
                 </button>
             </div>
 
             <!-- Part Item 1 -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-xl text-[#3A3831]">Hardware</span>
+                <div class="art-frame h-36 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Motor wheel with hub motor"><use href="#art-wheel"/></svg>
                 </div>
                 <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Additional Motor Wheels</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    High-power additional motor wheels for custom-built electric karts and robotic platforms.
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    High-power motor wheels for custom electric karts and robotic platforms. Several power ratings available.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                <div class="mb-5">
+                    <span class="heading-font text-2xl font-extrabold text-[#3A3831]">Price on request</span>
+                    <p class="text-xs text-[#827D70] mt-1">Depends on power rating and quantity</p>
+                </div>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">⚙️ Component</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Spare Part</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Additional Motor Wheels')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Additional Motor Wheels — price on request')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Order Part
                 </button>
             </div>
 
             <!-- Part Item 2 -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-xl text-[#3A3831]">Structure</span>
+                <div class="art-frame h-36 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Steel tube profiles"><use href="#art-steel"/></svg>
                 </div>
                 <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Steels for Karts</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Specialized steel profiles, frames, and raw materials for constructing robust go-kart chassis during workshops.
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Steel profiles, frame material and raw stock for building go-kart chassis during workshops. Cut to your drawing on request.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                <div class="mb-5">
+                    <span class="heading-font text-2xl font-extrabold text-[#3A3831]">Price on request</span>
+                    <p class="text-xs text-[#827D70] mt-1">Depends on profile, length and quantity</p>
+                </div>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">🔩 Materials</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Metal / Chassis</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Steels for Karts')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Steels for Karts — price on request')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Order Materials
                 </button>
             </div>
 
+        </div>
+    </section>
+
+    <!-- Price List -->
+    <section id="pricelist" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal scroll-mt-24">
+        <div class="mb-10">
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Price List</h2>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Everything on one page for school procurement. Prices in EUR. Delivery, VAT and quantity discounts are confirmed in the written offer.</p>
+        </div>
+
+        <div class="bg-[#F4F2EA] border border-[#D8D3C4] rounded-[2rem] overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm min-w-[560px]">
+                    <thead>
+                        <tr class="bg-[#EBE7D9] border-b border-[#D8D3C4] text-[10px] uppercase tracking-wider text-[#827D70]">
+                            <th class="py-4 px-6 font-bold">Product</th>
+                            <th class="py-4 px-6 font-bold">Type</th>
+                            <th class="py-4 px-6 font-bold">Unit</th>
+                            <th class="py-4 px-6 font-bold text-right">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#D8D3C4]/70">
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Solar Electric Boat</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Build kit</td>
+                            <td class="py-4 px-6 text-[#827D70]">per set</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">5 300 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Solar Electric Go-Kart</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Build kit</td>
+                            <td class="py-4 px-6 text-[#827D70]">per set</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">2 200 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Robotics — Hackathon &amp; Robot Soccer</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Competition kit</td>
+                            <td class="py-4 px-6 text-[#827D70]">per robot</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">850 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Computer Vision with Microbot</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Build kit</td>
+                            <td class="py-4 px-6 text-[#827D70]">per unit</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">420 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Go-Kart, Ready to Drive</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Assembled vehicle</td>
+                            <td class="py-4 px-6 text-[#827D70]">per kart</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">1 950 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Solar Boat, Ready to Sail</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Assembled vehicle</td>
+                            <td class="py-4 px-6 text-[#827D70]">per boat</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">3 600 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">AI and Machine Learning</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Course</td>
+                            <td class="py-4 px-6 text-[#827D70]">per course</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">Free</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Hands-on STEM Workshops</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Workshop</td>
+                            <td class="py-4 px-6 text-[#827D70]">per workshop</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">Free</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Lego AI and Science</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Rental</td>
+                            <td class="py-4 px-6 text-[#827D70]">per period</td>
+                            <td class="py-4 px-6 text-right heading-font font-bold text-[#5C594E] whitespace-nowrap">On request</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Additional Motor Wheels</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Component</td>
+                            <td class="py-4 px-6 text-[#827D70]">per piece</td>
+                            <td class="py-4 px-6 text-right heading-font font-bold text-[#5C594E] whitespace-nowrap">On request</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Steels for Karts</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Material</td>
+                            <td class="py-4 px-6 text-[#827D70]">per order</td>
+                            <td class="py-4 px-6 text-right heading-font font-bold text-[#5C594E] whitespace-nowrap">On request</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button onclick="openOrderModal(event, 'Full price list / offer request')" class="bg-[#3A3831] hover:bg-[#5C594E] text-[#F4F2EA] font-bold px-8 py-4 rounded-xl transition-all">
+                Ask for a Written Offer
+            </button>
         </div>
     </section>
 
@@ -322,6 +930,7 @@
                     <li><a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831] transition">Espoo Campus</a></li>
                     <li><a href="https://camps.aurinkolab.fi" class="hover:text-[#3A3831] transition">Summer Camps</a></li>
                     <li><a href="https://project.aurinkolab.fi" class="hover:text-[#3A3831] transition">Go-Kart Projects</a></li>
+                    <li><a href="#pricelist" class="hover:text-[#3A3831] transition">Price List</a></li>
                 </ul>
             </div>
             <div>
@@ -335,6 +944,7 @@
             <div>
                 <h4 class="font-bold text-[#3A3831] mb-4 uppercase tracking-wider">Provided By</h4>
                 <p class="text-[#5C594E]">All kits and materials are designed and provided by <strong>AurinkoLab</strong>.</p>
+                <p class="text-[#827D70] text-xs mt-3">Prices in EUR. Delivery and VAT confirmed in the offer.</p>
             </div>
         </div>
 
@@ -346,16 +956,16 @@
     <!-- ORDER / INQUIRY MODAL -->
     <div id="orderModal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-[#3A3831]/40 backdrop-blur-sm transition-opacity" onclick="closeOrderModal()">
         <div class="bg-[#F4F2EA] border border-[#D8D3C4] p-8 rounded-[2rem] max-w-lg w-full mx-4 relative shadow-2xl max-h-[90vh] overflow-y-auto modal-scroll" onclick="event.stopPropagation()">
-            
-            <button onclick="closeOrderModal()" class="absolute top-6 right-6 text-[#827D70] hover:text-[#3A3831] transition-colors">
+
+            <button onclick="closeOrderModal()" class="absolute top-6 right-6 text-[#827D70] hover:text-[#3A3831] transition-colors" aria-label="Close">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
-            
+
             <h3 class="heading-font text-3xl font-bold text-[#3A3831] mb-2 text-center">Request Kit / Item</h3>
             <p class="text-xs text-[#827D70] text-center mb-6">Fill out the form below, and we will get back to you with delivery and payment details.</p>
-            
+
             <form action="https://formspree.io/f/xwleoqdd" method="POST" class="space-y-5">
                 <div>
                     <label class="block text-[#5C594E] text-sm font-bold mb-1">Your Name or Organization</label>
@@ -371,12 +981,12 @@
                     <label class="block text-[#5C594E] text-sm font-bold mb-1">Selected Product / Kit</label>
                     <input type="text" id="productInput" name="product" required class="w-full rounded-xl px-4 py-3 transition-colors">
                 </div>
-                
+
                 <div>
                     <label class="block text-[#5C594E] text-sm font-bold mb-1">Comment / Quantity (Optional)</label>
                     <textarea name="message" rows="3" class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Specify quantity or delivery questions..."></textarea>
                 </div>
-                
+
                 <button type="submit" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-4 rounded-xl transition-all mt-2">
                     Submit Request
                 </button>
@@ -402,13 +1012,16 @@
             modal.classList.remove('flex');
             document.body.style.overflow = 'auto';
         }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeOrderModal();
+        });
 
         // Mobile menu toggle
         const btn = document.getElementById("menu-btn");
         const menu = document.getElementById("mobile-menu");
-        const lines = btn.querySelectorAll("span");
 
         if(btn && menu) {
+            const lines = btn.querySelectorAll("span");
             btn.addEventListener("click", () => {
                 menu.classList.toggle("hidden");
                 lines[0].classList.toggle("rotate-45");
@@ -416,6 +1029,9 @@
                 lines[1].classList.toggle("opacity-0");
                 lines[2].classList.toggle("-rotate-45");
                 lines[2].classList.toggle("-translate-y-2");
+            });
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => menu.classList.add('hidden'));
             });
         }
 
@@ -429,6 +1045,21 @@
             });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Language Dropdown Toggle
+        const langBtn = document.getElementById("lang-btn");
+        const langDropdown = document.getElementById("lang-dropdown");
+        if (langBtn && langDropdown) {
+            langBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle("hidden");
+            });
+            document.addEventListener("click", (e) => {
+                if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                    langDropdown.classList.add("hidden");
+                }
+            });
+        }
     </script>
 </body>
 </html>
