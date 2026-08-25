@@ -1,9 +1,41 @@
+
+Чат с Gemini
+translate this to russian and to finnish to 2 separate files
+
+Your translated HTML files are ready:
+
+Russian translation (ru_index.html):
+
+Значок HTML-файла
+ru_index
+ HTML 
+Открыть
+Finnish translation (fi_index.html):
+
+Значок HTML-файла
+fi_index
+ HTML 
+Открыть
+Both pages include fully translated text content (headers, product descriptions, "What's in the box" lists, price lists, navigation, modals, and metadata) while preserving the exact layout, styling, and inline SVG assets.
+
+
+
+
+Gemini — это ИИ. Он может ошибаться, в том числе давать неверную информацию о людях. Ваша конфиденциальность в GeminiОткроется в новом окне
+
+Выполняю анализ
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Магазин оборудования — AurinkoLab</title>
+
+    <!-- Language versions. Replace store.aurinkolab.fi with your real store domain. -->
+    <link rel="alternate" hreflang="en" href="https://shop.aurinkolab.fi/index.html">
+    <link rel="alternate" hreflang="fi" href="https://shop.aurinkolab.fi/su/index.html">
+    <link rel="alternate" hreflang="ru" href="https://shop.aurinkolab.fi/ru/index.html">
+    <link rel="alternate" hreflang="x-default" href="https://shop.aurinkolab.fi/index.html">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -39,27 +71,307 @@
             outline: none;
             box-shadow: none !important;
         }
-        
+
         /* Modal Scrollbar */
         .modal-scroll::-webkit-scrollbar { width: 6px; }
         .modal-scroll::-webkit-scrollbar-track { background: transparent; }
         .modal-scroll::-webkit-scrollbar-thumb { background: #D8D3C4; border-radius: 10px; }
+
+        /* "What's in the box" disclosure */
+        summary { list-style: none; cursor: pointer; }
+        summary::-webkit-details-marker { display: none; }
+        .chev { transition: transform .3s ease; }
+        details[open] .chev { transform: rotate(180deg); }
+
+        /* Product artwork */
+        .art { width: 100%; height: 100%; display: block; }
+        .art-frame {
+            background-color: #EBE7D9;
+            border: 1px solid #D8D3C4;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        :focus-visible { outline: 2px solid #3A3831; outline-offset: 2px; border-radius: 4px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-[#EBE7D9] selection:text-[#3A3831]">
+
+<!-- ============================================================
+     PRODUCT ARTWORK SPRITE
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+
+    <!-- SOLAR BOAT KIT -->
+    <symbol id="art-boat" viewBox="0 0 320 160">
+      <g stroke="#D9A441" stroke-width="3" stroke-linecap="round">
+        <line x1="266" y1="8" x2="266" y2="16"/><line x1="266" y1="56" x2="266" y2="64"/>
+        <line x1="238" y1="36" x2="246" y2="36"/><line x1="286" y1="36" x2="294" y2="36"/>
+        <line x1="246" y1="16" x2="252" y2="22"/><line x1="280" y1="50" x2="286" y2="56"/>
+        <line x1="286" y1="16" x2="280" y2="22"/><line x1="252" y1="50" x2="246" y2="56"/>
+      </g>
+      <circle cx="266" cy="36" r="14" fill="#E8BC63"/>
+      <line x1="124" y1="92" x2="124" y2="110" stroke="#3A3831" stroke-width="3"/>
+      <line x1="200" y1="76" x2="200" y2="110" stroke="#3A3831" stroke-width="3"/>
+      <polygon points="96,86 206,62 224,70 114,94" fill="#4B5A66" stroke="#3A3831" stroke-width="2" stroke-linejoin="round"/>
+      <g stroke="#8FA3AF" stroke-width="1.5" opacity=".9">
+        <line x1="118" y1="81" x2="136" y2="89"/><line x1="140" y1="76" x2="158" y2="84"/>
+        <line x1="162" y1="72" x2="180" y2="80"/><line x1="184" y1="67" x2="202" y2="75"/>
+        <line x1="105" y1="90" x2="215" y2="66"/>
+      </g>
+      <path d="M54,108 L268,108 C258,134 244,142 232,142 L96,142 C74,142 60,128 54,108 Z" fill="#C9A87C" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="66" y1="120" x2="252" y2="120" stroke="#3A3831" stroke-width="1.5" opacity=".45"/>
+      <rect x="136" y="94" width="46" height="16" rx="3" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <path d="M0,126 Q26,118 52,126 T104,126 T156,126 T208,126 T260,126 T312,126 L320,126 L320,160 L0,160 Z" fill="#9FB3BE" opacity=".65"/>
+      <g stroke="#F4F2EA" stroke-width="2.5" stroke-linecap="round" opacity=".8">
+        <line x1="30" y1="140" x2="66" y2="140"/><line x1="252" y1="146" x2="292" y2="146"/>
+      </g>
+    </symbol>
+
+    <!-- GO-KART KIT -->
+    <symbol id="art-kart" viewBox="0 0 320 160">
+      <line x1="128" y1="60" x2="128" y2="108" stroke="#3A3831" stroke-width="3"/>
+      <line x1="204" y1="44" x2="204" y2="86" stroke="#3A3831" stroke-width="3"/>
+      <polygon points="100,60 210,36 228,44 118,68" fill="#4B5A66" stroke="#3A3831" stroke-width="2" stroke-linejoin="round"/>
+      <g stroke="#8FA3AF" stroke-width="1.5" opacity=".9">
+        <line x1="122" y1="55" x2="140" y2="63"/><line x1="144" y1="50" x2="162" y2="58"/>
+        <line x1="166" y1="45" x2="184" y2="53"/><line x1="188" y1="41" x2="206" y2="49"/>
+        <line x1="109" y1="64" x2="219" y2="40"/>
+      </g>
+      <path d="M58,106 L262,106 L272,112 L262,124 L58,124 Z" fill="#C4653F" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M96,106 L96,74 Q96,66 106,66 L120,66 L120,106 Z" fill="#EBE7D9" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="62" y="84" width="30" height="22" rx="4" fill="#3A3831"/>
+      <line x1="70" y1="80" x2="70" y2="84" stroke="#3A3831" stroke-width="3"/>
+      <line x1="84" y1="80" x2="84" y2="84" stroke="#3A3831" stroke-width="3"/>
+      <line x1="168" y1="104" x2="192" y2="86" stroke="#3A3831" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="196" cy="84" rx="16" ry="5" fill="none" stroke="#3A3831" stroke-width="3.5" transform="rotate(-24 196 84)"/>
+      <circle cx="84" cy="122" r="26" fill="#3A3831"/>
+      <circle cx="84" cy="122" r="11" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="240" cy="124" r="21" fill="#3A3831"/>
+      <circle cx="240" cy="124" r="9" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+    </symbol>
+
+    <!-- ROBOTICS / ROBOT SOCCER -->
+    <symbol id="art-robot" viewBox="0 0 320 160">
+      <line x1="150" y1="44" x2="150" y2="22" stroke="#3A3831" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="150" cy="19" r="5" fill="#C4653F"/>
+      <rect x="88" y="94" width="16" height="38" rx="7" fill="#3A3831"/>
+      <rect x="196" y="94" width="16" height="38" rx="7" fill="#3A3831"/>
+      <rect x="98" y="56" width="104" height="76" rx="16" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <rect x="90" y="44" width="120" height="16" rx="8" fill="#3A3831"/>
+      <g fill="#4B5A66">
+        <circle cx="118" cy="76" r="6"/><circle cx="136" cy="76" r="6"/>
+        <circle cx="164" cy="76" r="6"/><circle cx="182" cy="76" r="6"/>
+      </g>
+      <rect x="126" y="94" width="48" height="18" rx="4" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <line x1="134" y1="103" x2="166" y2="103" stroke="#A39E8F" stroke-width="2"/>
+      <rect x="106" y="126" width="88" height="10" rx="5" fill="#C4653F" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="256" cy="112" r="22" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <g fill="#3A3831">
+        <polygon points="256,100 264,106 261,116 251,116 248,106"/>
+        <circle cx="240" cy="122" r="4"/><circle cx="272" cy="122" r="4"/><circle cx="256" cy="132" r="4"/>
+      </g>
+      <line x1="40" y1="144" x2="288" y2="144" stroke="#A39E8F" stroke-width="2" stroke-dasharray="8 8"/>
+    </symbol>
+
+    <!-- microbit / COMPUTER VISION -->
+    <symbol id="art-microbit" viewBox="0 0 320 160">
+      <polygon points="186,66 286,34 286,98 186,66" fill="#9FB3BE" opacity=".45"/>
+      <rect x="104" y="78" width="104" height="42" rx="10" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <rect x="132" y="42" width="52" height="38" rx="8" fill="#3A3831"/>
+      <circle cx="166" cy="61" r="13" fill="#4B5A66" stroke="#EBE7D9" stroke-width="2"/>
+      <circle cx="166" cy="61" r="6" fill="#9FB3BE"/>
+      <circle cx="162" cy="57" r="2.5" fill="#F4F2EA"/>
+      <g fill="#C4653F"><circle cx="118" cy="92" r="4"/><circle cx="130" cy="92" r="4"/></g>
+      <rect x="146" y="92" width="52" height="14" rx="3" fill="#EBE7D9" stroke="#3A3831" stroke-width="1.5"/>
+      <circle cx="122" cy="126" r="16" fill="#3A3831"/>
+      <circle cx="122" cy="126" r="6" fill="#EBE7D9"/>
+      <circle cx="192" cy="126" r="16" fill="#3A3831"/>
+      <circle cx="192" cy="126" r="6" fill="#EBE7D9"/>
+      <g stroke="#3A3831" stroke-width="2" opacity=".6">
+        <line x1="228" y1="52" x2="244" y2="52"/><line x1="228" y1="66" x2="252" y2="66"/><line x1="228" y1="80" x2="240" y2="80"/>
+      </g>
+    </symbol>
+
+    <!-- AI & MACHINE LEARNING -->
+    <symbol id="art-ai" viewBox="0 0 320 160">
+      <g stroke="#B0AA98" stroke-width="1.5">
+        <line x1="92" y1="46" x2="164" y2="34"/><line x1="92" y1="46" x2="164" y2="72"/>
+        <line x1="92" y1="46" x2="164" y2="110"/><line x1="92" y1="46" x2="164" y2="140"/>
+        <line x1="92" y1="88" x2="164" y2="34"/><line x1="92" y1="88" x2="164" y2="72"/>
+        <line x1="92" y1="88" x2="164" y2="110"/><line x1="92" y1="88" x2="164" y2="140"/>
+        <line x1="92" y1="130" x2="164" y2="34"/><line x1="92" y1="130" x2="164" y2="72"/>
+        <line x1="92" y1="130" x2="164" y2="110"/><line x1="92" y1="130" x2="164" y2="140"/>
+        <line x1="164" y1="34" x2="236" y2="66"/><line x1="164" y1="34" x2="236" y2="110"/>
+        <line x1="164" y1="72" x2="236" y2="66"/><line x1="164" y1="72" x2="236" y2="110"/>
+        <line x1="164" y1="110" x2="236" y2="66"/><line x1="164" y1="110" x2="236" y2="110"/>
+        <line x1="164" y1="140" x2="236" y2="66"/><line x1="164" y1="140" x2="236" y2="110"/>
+      </g>
+      <g fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5">
+        <circle cx="92" cy="46" r="10"/><circle cx="92" cy="88" r="10"/><circle cx="92" cy="130" r="10"/>
+        <circle cx="164" cy="34" r="10"/><circle cx="164" cy="110" r="10"/><circle cx="164" cy="140" r="10"/>
+        <circle cx="236" cy="110" r="10"/>
+      </g>
+      <g fill="#3A3831"><circle cx="164" cy="72" r="10"/><circle cx="236" cy="66" r="10"/></g>
+      <g fill="#C4653F"><circle cx="92" cy="88" r="4"/><circle cx="236" cy="110" r="4"/></g>
+    </symbol>
+
+    <!-- HANDS-ON STEM -->
+    <symbol id="art-stem" viewBox="0 0 320 160">
+      <g transform="translate(224,90)">
+        <g fill="#3A3831">
+          <rect x="-6" y="-44" width="12" height="15" rx="2"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(45)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(90)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(135)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(180)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(225)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(270)"/>
+          <rect x="-6" y="-44" width="12" height="15" rx="2" transform="rotate(315)"/>
+        </g>
+        <circle r="32" fill="#3A3831"/>
+        <circle r="14" fill="#EBE7D9"/>
+      </g>
+      <path d="M84,26 L84,66 L58,120 Q54,132 66,132 L126,132 Q138,132 134,120 L108,66 L108,26 Z" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M70,100 L122,100 Q134,128 126,130 L66,130 Q58,128 70,100 Z" fill="#7FA08D"/>
+      <g fill="#F4F2EA" opacity=".9">
+        <circle cx="88" cy="112" r="4"/><circle cx="104" cy="120" r="3"/><circle cx="98" cy="106" r="2.5"/>
+      </g>
+      <line x1="78" y1="26" x2="114" y2="26" stroke="#3A3831" stroke-width="5" stroke-linecap="round"/>
+      <g transform="translate(168,44)" stroke="#C4653F" stroke-width="2.5" fill="none">
+        <ellipse rx="24" ry="9"/><ellipse rx="24" ry="9" transform="rotate(60)"/><ellipse rx="24" ry="9" transform="rotate(120)"/>
+      </g>
+      <circle cx="168" cy="44" r="5" fill="#C4653F"/>
+    </symbol>
+
+    <!-- LEGO AI & SCIENCE (RENTAL) -->
+    <symbol id="art-lego" viewBox="0 0 320 160">
+      <g fill="#6E8CA0" stroke="#3A3831" stroke-width="2.5">
+        <rect x="128" y="34" width="20" height="16" rx="4"/><rect x="160" y="34" width="20" height="16" rx="4"/>
+      </g>
+      <rect x="118" y="48" width="76" height="34" rx="5" fill="#6E8CA0" stroke="#3A3831" stroke-width="2.5"/>
+      <g fill="#C4653F" stroke="#3A3831" stroke-width="2.5">
+        <rect x="98" y="70" width="20" height="16" rx="4"/><rect x="130" y="70" width="20" height="16" rx="4"/>
+        <rect x="162" y="70" width="20" height="16" rx="4"/><rect x="194" y="70" width="20" height="16" rx="4"/>
+      </g>
+      <rect x="88" y="84" width="136" height="36" rx="5" fill="#C4653F" stroke="#3A3831" stroke-width="2.5"/>
+      <g transform="translate(258,96)">
+        <rect x="-20" y="-20" width="40" height="40" rx="5" fill="#3A3831"/>
+        <rect x="-9" y="-9" width="18" height="18" rx="3" fill="#EBE7D9"/>
+        <g stroke="#3A3831" stroke-width="3" stroke-linecap="round">
+          <line x1="-26" y1="-10" x2="-20" y2="-10"/><line x1="-26" y1="0" x2="-20" y2="0"/><line x1="-26" y1="10" x2="-20" y2="10"/>
+          <line x1="20" y1="-10" x2="26" y2="-10"/><line x1="20" y1="0" x2="26" y2="0"/><line x1="20" y1="10" x2="26" y2="10"/>
+        </g>
+      </g>
+      <line x1="60" y1="132" x2="260" y2="132" stroke="#A39E8F" stroke-width="2" stroke-dasharray="8 8"/>
+    </symbol>
+
+    <!-- MOTOR WHEELS -->
+    <symbol id="art-wheel" viewBox="0 0 320 160">
+      <circle cx="150" cy="80" r="62" fill="#3A3831"/>
+      <circle cx="150" cy="80" r="56" fill="none" stroke="#5C594E" stroke-width="5" stroke-dasharray="9 9"/>
+      <circle cx="150" cy="80" r="42" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <g stroke="#3A3831" stroke-width="4" stroke-linecap="round">
+        <line x1="150" y1="42" x2="150" y2="62"/><line x1="150" y1="98" x2="150" y2="118"/>
+        <line x1="112" y1="80" x2="132" y2="80"/><line x1="168" y1="80" x2="188" y2="80"/>
+        <line x1="123" y1="53" x2="137" y2="67"/><line x1="163" y1="93" x2="177" y2="107"/>
+        <line x1="177" y1="53" x2="163" y2="67"/><line x1="137" y1="93" x2="123" y2="107"/>
+      </g>
+      <circle cx="150" cy="80" r="20" fill="#4B5A66" stroke="#3A3831" stroke-width="2.5"/>
+      <circle cx="150" cy="80" r="7" fill="#EBE7D9"/>
+      <path d="M212,80 C240,80 248,60 276,60" fill="none" stroke="#3A3831" stroke-width="4" stroke-linecap="round"/>
+      <rect x="272" y="50" width="20" height="20" rx="4" fill="#C4653F" stroke="#3A3831" stroke-width="2.5"/>
+    </symbol>
+
+    <!-- STEEL PROFILES -->
+    <symbol id="art-steel" viewBox="0 0 320 160">
+      <g stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M56,40 L240,28 L262,36 L78,48 Z" fill="#C9C3B2"/>
+        <path d="M56,40 L56,60 L78,68 L78,48 Z" fill="#A39E8F"/>
+        <path d="M78,48 L262,36 L262,56 L78,68 Z" fill="#B9B3A2"/>
+        <path d="M48,84 L232,74 L256,84 L72,94 Z" fill="#C9C3B2"/>
+        <path d="M48,84 L48,102 L72,112 L72,94 Z" fill="#A39E8F"/>
+        <path d="M72,94 L256,84 L256,102 L72,112 Z" fill="#B9B3A2"/>
+        <path d="M62,124 L228,118 L248,126 L82,132 Z" fill="#C9C3B2"/>
+        <path d="M62,124 L62,138 L82,146 L82,132 Z" fill="#A39E8F"/>
+        <path d="M82,132 L248,126 L248,140 L82,146 Z" fill="#B9B3A2"/>
+      </g>
+    </symbol>
+
+    <!-- READY-MADE GO-KART -->
+    <symbol id="art-kart-ready" viewBox="0 0 320 160">
+      <g transform="translate(268,26)">
+        <line x1="0" y1="0" x2="0" y2="52" stroke="#3A3831" stroke-width="3" stroke-linecap="round"/>
+        <rect x="2" y="0" width="36" height="24" fill="#F4F2EA" stroke="#3A3831" stroke-width="2"/>
+        <g fill="#3A3831">
+          <rect x="2" y="0" width="12" height="8"/><rect x="26" y="0" width="12" height="8"/>
+          <rect x="14" y="8" width="12" height="8"/><rect x="2" y="16" width="12" height="8"/>
+          <rect x="26" y="16" width="12" height="8"/>
+        </g>
+      </g>
+      <path d="M42,110 C42,96 60,92 84,92 L140,92 L156,74 L196,74 L206,92 L246,92 C266,92 276,100 276,112 L276,124 L42,124 Z" fill="#C4653F" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M120,92 L120,58 Q120,48 132,48 L150,48 L150,92 Z" fill="#EBE7D9" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="122" y="34" width="30" height="16" rx="6" fill="#3A3831"/>
+      <line x1="176" y1="88" x2="196" y2="70" stroke="#3A3831" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="200" cy="68" rx="15" ry="5" fill="none" stroke="#3A3831" stroke-width="3.5" transform="rotate(-24 200 68)"/>
+      <circle cx="86" cy="124" r="25" fill="#3A3831"/>
+      <circle cx="86" cy="124" r="10" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="242" cy="126" r="21" fill="#3A3831"/>
+      <circle cx="242" cy="126" r="9" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <line x1="24" y1="150" x2="296" y2="150" stroke="#A39E8F" stroke-width="2"/>
+    </symbol>
+
+    <!-- READY-MADE SOLAR BOAT -->
+    <symbol id="art-boat-ready" viewBox="0 0 320 160">
+      <circle cx="272" cy="30" r="13" fill="#E8BC63"/>
+      <g transform="translate(44,20)">
+        <line x1="0" y1="0" x2="0" y2="88" stroke="#3A3831" stroke-width="3" stroke-linecap="round"/>
+        <rect x="2" y="0" width="33" height="22" fill="#F4F2EA" stroke="#3A3831" stroke-width="2"/>
+        <g fill="#3A3831">
+          <rect x="2" y="0" width="11" height="7.3"/><rect x="24" y="0" width="11" height="7.3"/>
+          <rect x="13" y="7.3" width="11" height="7.3"/><rect x="2" y="14.6" width="11" height="7.4"/>
+          <rect x="24" y="14.6" width="11" height="7.4"/>
+        </g>
+      </g>
+      <line x1="120" y1="80" x2="120" y2="106" stroke="#3A3831" stroke-width="3"/>
+      <line x1="216" y1="66" x2="216" y2="106" stroke="#3A3831" stroke-width="3"/>
+      <polygon points="106,80 216,54 236,62 126,88" fill="#4B5A66" stroke="#3A3831" stroke-width="2" stroke-linejoin="round"/>
+      <g stroke="#8FA3AF" stroke-width="1.5" opacity=".9">
+        <line x1="128" y1="75" x2="148" y2="83"/><line x1="150" y1="70" x2="170" y2="78"/>
+        <line x1="172" y1="64" x2="192" y2="72"/><line x1="194" y1="59" x2="214" y2="67"/>
+        <line x1="116" y1="84" x2="226" y2="58"/>
+      </g>
+      <path d="M72,104 L272,104 C262,130 248,138 236,138 L112,138 C90,138 78,124 72,104 Z" fill="#C9A87C" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="140" y="88" width="56" height="16" rx="3" fill="#EBE7D9" stroke="#3A3831" stroke-width="2"/>
+      <circle cx="168" cy="96" r="4" fill="#3A3831"/>
+      <path d="M0,122 Q26,114 52,122 T104,122 T156,122 T208,122 T260,122 T312,122 L320,122 L320,160 L0,160 Z" fill="#9FB3BE" opacity=".65"/>
+      <g stroke="#F4F2EA" stroke-width="3" stroke-linecap="round" opacity=".85">
+        <line x1="22" y1="136" x2="64" y2="136"/><line x1="40" y1="148" x2="96" y2="148"/>
+        <line x1="252" y1="142" x2="298" y2="142"/>
+      </g>
+    </symbol>
+
+  </defs>
+</svg>
 
     <!-- Top Banner -->
     <div class="bg-[#EBE7D9] text-xs md:text-sm py-2.5 px-4 text-center border-b border-[#D8D3C4]">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-2.5 md:gap-4 font-medium text-[#5C594E] tracking-wide">
             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F2EA] border border-[#D8D3C4] font-semibold tracking-wider uppercase text-[10px]">
-                AurinkoLab Store
+                Магазин AurinkoLab
             </span>
             <span class="hidden sm:inline text-[#D8D3C4]">•</span>
-            <span class="text-[#5C594E]">Оборудование для курсов и учебные материалы <strong class="text-[#3A3831]">прямо от создателей</strong></span>
+            <span class="text-[#5C594E]">Оборудование для курсов и учебные материалы <strong class="text-[#3A3831]">напрямую от создателей</strong></span>
         </div>
     </div>
 
-    <!-- Navigation -->
+<!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-[#F4F2EA]/90 backdrop-blur-md border-b border-[#D8D3C4]">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -69,23 +381,39 @@
                         A
                     </div>
                     <span class="heading-font font-bold text-2xl tracking-tight text-[#3A3831]">Aurinko<span class="font-normal">Lab</span>
-                    <span class="block text-[8px] tracking-[.3em] text-[#5C594E] uppercase -mt-1">Магазин • Комплекты</span></span>
+                    <span class="block text-[8px] tracking-[.3em] text-[#5C594E] uppercase -mt-1">Магазин • Наборы</span></span>
                 </a>
 
                 <!-- Desktop Nav -->
-                <div class="hidden md:flex items-center space-x-6 lg:space-x-8 font-semibold text-[#5C594E] text-sm">
+                <div class="hidden md:flex items-center space-x-5 lg:space-x-7 font-semibold text-[#5C594E] text-sm">
                     <a href="#kits" class="hover:text-[#3A3831] transition-colors">Наборы для курсов</a>
-                    <a href="#parts" class="hover:text-[#3A3831] transition-colors">Комплектующие</a>
-                    <a href="#rental" class="hover:text-[#3A3831] transition-colors">Аренда</a>
-                    <a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831] transition-colors">Главная Эспоо</a>
-                    
+                    <a href="#ready" class="hover:text-[#3A3831] transition-colors">Готовые модели</a>
+                    <a href="#parts" class="hover:text-[#3A3831] transition-colors">Компоненты</a>
+                    <a href="#pricelist" class="hover:text-[#3A3831] transition-colors">Прайс-лист</a>
+
                     <a href="#" onclick="openOrderModal(event, 'Общий запрос в магазин')" class="bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] px-5 py-2.5 rounded-xl font-bold transition-all">
-                        Связаться / Заказать
+                        Контакты / Заказ
                     </a>
+
+                    <!-- Language Selector (Desktop) -->
+                    <div class="relative">
+                        <button id="lang-btn" class="flex items-center space-x-1.5 text-[#3A3831] hover:text-[#827D70] transition-colors font-bold bg-[#F4F2EA] border border-[#D8D3C4] px-3 py-1.5 rounded-lg">
+                            <span id="current-lang" class="text-xs">RU</span>
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-[#F4F2EA] border border-[#D8D3C4] rounded-xl shadow-xl overflow-hidden z-50">
+                            <a href="/index.html" lang="en" class="block px-4 py-2.5 text-sm text-[#3A3831] hover:bg-[#EBE7D9] transition-colors">English</a>
+                            <a href="/su/index.html" lang="fi" class="block px-4 py-2.5 text-sm text-[#3A3831] hover:bg-[#EBE7D9] transition-colors">Suomi</a>
+                            <a href="/ru/index.html" lang="ru" aria-current="page" class="flex items-center justify-between px-4 py-2.5 text-sm font-bold text-[#3A3831] bg-[#EBE7D9]">
+                                Русский
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile Hamburger -->
-                <button id="menu-btn" class="md:hidden flex flex-col justify-between w-8 h-6 focus:outline-none">
+                <button id="menu-btn" class="md:hidden flex flex-col justify-between w-8 h-6 focus:outline-none" aria-label="Открыть меню">
                     <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
                     <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
                     <span class="block w-8 h-0.5 bg-[#3A3831] transition-all duration-300"></span>
@@ -97,141 +425,346 @@
         <div id="mobile-menu" class="hidden md:hidden bg-[#F4F2EA] border-b border-[#D8D3C4] absolute w-full">
             <div class="flex flex-col space-y-4 p-6 font-semibold text-[#5C594E]">
                 <a href="#kits" class="hover:text-[#3A3831]">Наборы для курсов</a>
-                <a href="#parts" class="hover:text-[#3A3831]">Комплектующие</a>
-                <a href="#rental" class="hover:text-[#3A3831]">Аренда</a>
+                <a href="#ready" class="hover:text-[#3A3831]">Готовый транспорт</a>
+                <a href="#parts" class="hover:text-[#3A3831]">Компоненты и аренда</a>
+                <a href="#pricelist" class="hover:text-[#3A3831]">Прайс-лист</a>
                 <a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831]">Главная Эспоо</a>
-                <a href="#" onclick="openOrderModal(event, 'Общий запрос в магазин')" class="bg-[#EBE7D9] text-[#3A3831] border border-[#D8D3C4] px-4 py-3 rounded-xl text-center">Заказать</a>
+                <a href="#" onclick="openOrderModal(event, 'Общий запрос в магазин')" class="bg-[#EBE7D9] text-[#3A3831] border border-[#D8D3C4] px-4 py-3 rounded-xl text-center">Заказать сейчас</a>
+
+                <!-- Language Selector (Mobile) -->
+                <div class="border-t border-[#D8D3C4] pt-4 mt-2">
+                    <p class="text-[#827D70] text-xs uppercase tracking-wider mb-3">Язык / Kieli / Language</p>
+                    <div class="flex flex-col space-y-2">
+                        <a href="/index.html" lang="en" class="hover:text-[#3A3831]">English</a>
+                        <a href="/su/index.html" lang="fi" class="hover:text-[#3A3831]">Suomi</a>
+                        <a href="/ru/index.html" lang="ru" aria-current="page" class="font-bold text-[#3A3831]">Русский</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-20 pb-16 px-6 max-w-7xl mx-auto text-center reveal">
+    <section class="pt-20 pb-12 px-6 max-w-7xl mx-auto text-center reveal">
         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[10px] font-bold uppercase tracking-wider text-[#827D70] mb-4">
-            Каталог AurinkoLab
+            Каталог AurinkoLab 2026
         </span>
         <h1 class="heading-font text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#3A3831] tracking-tight leading-[1.02] mb-6">
-            Комплекты оборудования <br> и учебные материалы
+            Наборы оборудования и <br> учебные материалы
         </h1>
         <p class="text-lg text-[#5C594E] max-w-2xl mx-auto">
-            Проверенные на практике STEM-наборы, инженерные комплекты, сопутствующие материалы и компоненты для классов и индивидуальных проектов. Разработано AurinkoLab.
+            Проверенные на практике наборы STEM, инженерное оборудование, сопутствующие материалы и компоненты для классов и индивидуальных проектов. Предоставлено AurinkoLab.
         </p>
+
+        <!-- Quick facts -->
+        <div class="mt-10 grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-left">
+            <div class="bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl p-5">
+                <p class="heading-font text-2xl font-extrabold text-[#3A3831]">420 – 5 300 €</p>
+                <p class="text-xs text-[#5C594E] mt-1">Сборочные наборы, всё в одной коробке</p>
+            </div>
+            <div class="bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl p-5">
+                <p class="heading-font text-2xl font-extrabold text-[#3A3831]">Бесплатно</p>
+                <p class="text-xs text-[#5C594E] mt-1">Курс ИИ/МО и STEM-воркшопы</p>
+            </div>
+            <div class="bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl p-5">
+                <p class="heading-font text-2xl font-extrabold text-[#3A3831]">1 950 € / 3 600 €</p>
+                <p class="text-xs text-[#5C594E] mt-1">Готовый карт и лодка</p>
+            </div>
+        </div>
     </section>
 
     <!-- Main Store Section -->
-    <section id="kits" class="py-12 px-6 max-w-7xl mx-auto reveal">
+    <section id="kits" class="py-12 px-6 max-w-7xl mx-auto reveal scroll-mt-24">
         <div class="mb-12">
-            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Инженерные наборы и учебные курсы</h2>
-            <p class="text-[#5C594E] text-sm">Включают аппаратную часть (комплектующие) и полные методические материалы.</p>
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Инженерные наборы и курсы</h2>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Каждый набор поставляется в одной коробке со всеми деталями, необходимыми для завершения сборки, а также пошаговым руководством и методикой для преподавателя. Цены в евро; доставка и НДС подтверждаются в письменном предложении.</p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- Item 1 -->
+            <!-- Item 1 — Solar Boat -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Solar Boat</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Комплект лодки на солнечных батареях"><use href="#art-boat"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Solar Electric Boat</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Полный комплект оборудования и учебных материалов для сборки управляемой модели лодки на солнечных батареях.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Солнечная электролодка</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Полный комплект оборудования и учебных материалов для сборки и эксплуатации лодки на солнечных батареях. Фанера, стапель, солнечные панели, аккумулятор и сталь — всё в одной коробке.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">📦 Комплект + Мануал</span>
-                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Возраст 15+</span>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">5 300 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ весь комплект</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Solar Electric Boat (15+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
-                    Запросить комплект
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>Что в коробке</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Морская фанера, раскроенные панели корпуса</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Стапель для сборки корпуса</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Солнечные панели + контроллер заряда MPPT</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Аккумуляторная батарея с BMS и зарядным устройством</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Детали каркаса из стали и алюминия, кронштейны, опора вала</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Электродвигатель, гребной винт и гребной вал</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Контроллер мотора, ручка газа, проводка, выключатели и предохранители</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Комплект рулевого управления: руль, румпель и тяги</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Эпоксидная смола, герметик, стеклолента и крепеж</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Руководство по сборке и методика для преподавателя</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">📦 Набор + Инструкция</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">От 15 лет</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Солнечная электролодка (набор) — 5 300 €')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить набор
                 </button>
             </div>
 
-            <!-- Item 2 -->
+            <!-- Item 2 — Go-Kart Kit -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Go-Kart</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Комплект электрического карта на солнечной батарее"><use href="#art-kart"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Solar Electric Go-Kart</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Профессиональный набор для сборки солнечного электрокартинга. Включает раму, электромоторы, батарейные блоки и схему монтажа.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Электрический карт на солнечной батарее</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Полный сборочный набор для электрического карта на солнечной батарее: материал стального шасси, мотор-колеса, аккумуляторная батарея, электроника и сборочные чертежи.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">📦 Полный набор</span>
-                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Возраст 12+</span>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">3 400 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ весь комплект</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Solar Electric Go-Kart (12+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
-                    Запросить комплект
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>Что в коробке</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Нарезанные стальные профили для шасси</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Мотор-колеса с креплениями</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Аккумуляторная батарея и зарядное устройство</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Солнечная панель с контроллером заряда</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Контроллер мотора и педаль акселератора</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Комплект рулевого управления: руль, колонка, рулевые тяги, поворотные кулаки</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Комплект тормозов и педаль</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Сиденье и ремень безопасности</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Жгут проводки, предохранители, главный выключатель</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Крепеж, чертежи и руководство по сборке</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">📦 Полный набор для сборки</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">От 12 лет</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Электрический карт на солнечной батарее (набор) — 3 400 €')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить набор
                 </button>
             </div>
 
-            <!-- Item 3 -->
+            <!-- Item 3 — Robotics -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">Robotics</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Робот для робофутбола"><use href="#art-robot"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Robotics Engineering</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Комплект для изучения робототехники с нуля: датчики, контроллеры, исполнительные механизмы и пошаговые проектные уроки.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Робототехника — хакатон и робофутбол</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Соревновательный набор для инженерных хакатонов и турниров по робофутболу. Один комплект позволяет собрать одного полноценного робота.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">850 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ за робота</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>Что в коробке</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Шасси робота и монтажные пластины</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Всенаправленные колеса (омниколеса), моторы и драйверы моторов</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Плата контроллера с кабелем программирования</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Датчики мяча, линии и расстояния, модуль компаса</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Механизм удара и дриблер</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Аккумулятор, зарядное устройство и проводка</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Запчасти и инструменты для сборки</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Пакет правил хакатона и методика для тренера</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">📦 Набор + Учебник</span>
-                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Возраст 11+</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">От 11 лет</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Robotics Engineering (11+)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
-                    Запросить комплект
+                <button onclick="openOrderModal(event, 'Робототехника — Хакатон / Робофутбол — 850 € за робота')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить набор
                 </button>
             </div>
 
-            <!-- Item 4 -->
+            <!-- Item 4 — microbit -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">microbit</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Робот компьютерного зрения microbit"><use href="#art-microbit"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Computer Vision with microbit</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Продвинутый комплект для интеграции компьютерного зрения и микроробототехники (камеры, процессоры, алгоритмы распознавания).
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Компьютерное зрение с microbit</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Продвинутый набор, объединяющий компьютерное зрение и микроробототехнику: камера, бортовой процессор, датчики и проекты распознавания объектов.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">📦 AI Hardware Kit</span>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">420 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ за шт.</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>Что в коробке</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Одноплатный компьютер с модулем камеры</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Шасси microbit, моторы и колеса</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Драйвер моторов, датчики и светодиодные индикаторы</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Аккумулятор, зарядное устройство и кабели</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Карта памяти с предустановленным ПО компьютерного зрения</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Рабочая тетрадь проекта с планами уроков</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">📦 Аппаратный набор ИИ</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Продвинутый</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Computer Vision with microbit')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
-                    Запросить комплект
+                <button onclick="openOrderModal(event, 'Компьютерное зрение с microbit — 420 € за шт.')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить набор
                 </button>
             </div>
 
-            <!-- Item 5 -->
+            <!-- Item 5 — AI & ML (free) -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">AI & ML</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Диаграмма нейронной сети"><use href="#art-ai"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">AI and Machine Learning</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Комплект учебных материалов, лабораторных заданий и программных библиотек для глубокого погружения в машинное обучение и искусственный интеллект.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Искусственный интеллект и машинное обучение</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Материалы курса, лабораторные задания и библиотеки программного обеспечения для полного погружения в машинное обучение и искусственный интеллект.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">📄 Учебные материалы</span>
-                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Курс / Софт</span>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">Бесплатно</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ курс</span>
                 </div>
-                <button onclick="openOrderModal(event, 'AI and Machine Learning Materials')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <p class="text-xs text-[#827D70] leading-relaxed mb-5 bg-[#EBE7D9] border border-[#D8D3C4] rounded-xl px-4 py-3">
+                    Доступно школам и индивидуальным учащимся бесплатно. Отправьте запрос, чтобы забронировать место для группы.
+                </p>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">📄 Учебные материалы</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Курс / ПО</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Курс ИИ и машинного обучения — Бесплатно')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Запросить материалы
                 </button>
             </div>
 
-            <!-- Item 6 -->
+            <!-- Item 6 — STEM (free) -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-36 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-2xl text-[#3A3831]">STEM</span>
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Научная колба, шестеренка и атом"><use href="#art-stem"/></svg>
                 </div>
-                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Hands-on STEM</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Универсальный набор для практических занятий естественными науками, физикой и механикой для юных исследователей.
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Практические STEM-воркшопы</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Практические мастер-классы по естественным наукам, физике и механике для юных исследователей — проводятся в вашей школе или в нашей лаборатории в Эспоо.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">📦 STEM Kit</span>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">Бесплатно</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ воркшоп</span>
+                </div>
+                <p class="text-xs text-[#827D70] leading-relaxed mb-5 bg-[#EBE7D9] border border-[#D8D3C4] rounded-xl px-4 py-3">
+                    Плата за воркшоп не взимается. Сообщите размер вашей группы и предпочитаемые даты, и мы подтвердим слот.
+                </p>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">🔬 Воркшоп</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Базовый / Средний</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Hands-on STEM Kit')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
-                    Запросить комплект
+                <button onclick="openOrderModal(event, 'Практический STEM-воркшоп — Бесплатно')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Запросить материалы
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Ready-Made Vehicles -->
+    <section id="ready" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal scroll-mt-24">
+        <div class="mb-12">
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Готовые модели транспорта</h2>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Собраны и испытаны в нашей мастерской, доставляются в собранном и готовом к использованию виде. Время на сборку не требуется — отличный выбор для демонстрационных дней, лагерей и открытых мероприятий.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <!-- Ready Go-Kart -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="art-frame h-52 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Собранный электрический карт"><use href="#art-kart-ready"/></svg>
+                </div>
+                <div class="flex items-start justify-between gap-4 mb-2">
+                    <h3 class="heading-font text-2xl font-bold text-[#3A3831]">Карт, готовый к езде</h3>
+                    <span class="shrink-0 px-3 py-1 rounded-full bg-[#3A3831] text-[#F4F2EA] text-[10px] font-bold uppercase tracking-wider">В сборе</span>
+                </div>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Полностью собранный электрический карт из нашей мастерской: сварное шасси, мотор-колеса, аккумулятор, контроллер, рулевое управление и тормоза — испытаны и готовы к езде при доставке.
+                </p>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">1 950 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ за карт</span>
+                </div>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">🏁 Собрано и испытано</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">От 12 лет</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Готовый карт — 1 950 € за карт')" class="w-full bg-[#3A3831] hover:bg-[#5C594E] text-[#F4F2EA] font-bold py-3 rounded-xl transition-all">
+                    Купить готовый карт
+                </button>
+            </div>
+
+            <!-- Ready Boat -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="art-frame h-52 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Собранная лодка на солнечной батарее"><use href="#art-boat-ready"/></svg>
+                </div>
+                <div class="flex items-start justify-between gap-4 mb-2">
+                    <h3 class="heading-font text-2xl font-bold text-[#3A3831]">Солнечная лодка, готовая к плаванию</h3>
+                    <span class="shrink-0 px-3 py-1 rounded-full bg-[#3A3831] text-[#F4F2EA] text-[10px] font-bold uppercase tracking-wider">В сборе</span>
+                </div>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Готовая электрическая лодка на солнечных батареях: герметичный фанерный корпус, солнечные панели, аккумулятор, мотор и рулевое управление установлены и испытаны на воде нашей командой.
+                </p>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">3 600 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ за лодку</span>
+                </div>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">⛵ Собрано и испытано на воде</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">От 15 лет</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Готовая солнечная лодка — 3 600 € за лодку')" class="w-full bg-[#3A3831] hover:bg-[#5C594E] text-[#F4F2EA] font-bold py-3 rounded-xl transition-all">
+                    Купить готовую лодку
                 </button>
             </div>
 
@@ -239,68 +772,177 @@
     </section>
 
     <!-- Rental & Parts Section -->
-    <section id="parts" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal">
+    <section id="parts" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal scroll-mt-24">
         <div class="mb-12">
-            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Аренда оборудования и запчасти</h2>
-            <p class="text-[#5C594E] text-sm">Специализированные компоненты для модернизации и арендные решения для образовательных центров.</p>
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Аренда оборудования и запасные части</h2>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Компоненты для индивидуальной сборки и варианты аренды для школ и учебных центров. Цены зависят от количества и срока аренды — отправьте запрос, и мы ответим предложением.</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div id="rental" class="grid md:grid-cols-3 gap-8 scroll-mt-24">
 
             <!-- Rental Item -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-xl text-[#3A3831]">Rental</span>
+                <div class="art-frame h-36 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Кубики Лего с чипом ИИ"><use href="#art-lego"/></svg>
                 </div>
-                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Lego AI and Science (Аренда)</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Доступные комплекты Lego AI & Science в аренду для кружков, лагерных смен и школьных проектов с полным набором методик.
+                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Lego AI и наука (Аренда)</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Наборы Lego AI & Science в аренду — для клубов, смен в лагерях и школьных проектов, с полным методическим сопровождением.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                <div class="mb-5">
+                    <span class="heading-font text-2xl font-extrabold text-[#3A3831]">Аренда по запросу</span>
+                    <p class="text-xs text-[#827D70] mt-1">Цена определяется количеством наборов и сроком аренды</p>
+                </div>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">🔄 Условия аренды</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Аренда</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Lego AI and Science (Rent)')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Lego AI и наука — аренда, цена по запросу')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Запросить аренду
                 </button>
             </div>
 
             <!-- Part Item 1 -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-xl text-[#3A3831]">Hardware</span>
+                <div class="art-frame h-36 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Мотор-колесо со встроенным электродвигателем"><use href="#art-wheel"/></svg>
                 </div>
-                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Additional Motor Wheels</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Дополнительные мотор-колеса высокой мощности для электрических карт и робототехнических платформ собственной сборки.
+                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Дополнительные мотор-колеса</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Мощные мотор-колеса для самодельных электрических картов и робототехнических платформ. Доступно несколько вариантов мощности.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
+                <div class="mb-5">
+                    <span class="heading-font text-2xl font-extrabold text-[#3A3831]">Цена по запросу</span>
+                    <p class="text-xs text-[#827D70] mt-1">Зависит от номинальной мощности и количества</p>
+                </div>
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
                     <span class="text-xs font-bold text-[#827D70]">⚙️ Компонент</span>
                     <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Запчасть</span>
                 </div>
-                <button onclick="openOrderModal(event, 'Additional Motor Wheels')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <button onclick="openOrderModal(event, 'Дополнительные мотор-колеса — цена по запросу')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Заказать деталь
                 </button>
             </div>
 
             <!-- Part Item 2 -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
-                <div class="h-32 bg-[#EBE7D9] border border-[#D8D3C4] rounded-2xl flex items-center justify-center mb-6">
-                    <span class="heading-font font-bold text-xl text-[#3A3831]">Structure</span>
+                <div class="art-frame h-36 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Стальные трубчатые профили"><use href="#art-steel"/></svg>
                 </div>
-                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Steels for Karts</h3>
-                <p class="text-[#5C594E] text-sm leading-relaxed flex-grow mb-6">
-                    Специальные стальные профили, рамы и заготовки для конструирования надежных корпусов картинга в рамках мастерских.
+                <h3 class="heading-font text-xl font-bold text-[#3A3831] mb-2">Сталь для картов</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Стальные профили, материал рамы и заготовки для сборки шасси карта во время воркшопов. Нарезка по вашему чертежу по запросу.
                 </p>
-                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-[#827D70]">🔩 Материалы</span>
-                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Металл / Рама</span>
+                <div class="mb-5">
+                    <span class="heading-font text-2xl font-extrabold text-[#3A3831]">Цена по запросу</span>
+                    <p class="text-xs text-[#827D70] mt-1">Зависит от профиля, длины и количества</p>
                 </div>
-                <button onclick="openOrderModal(event, 'Steels for Karts')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">🔩 Материалы</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Металл / Шасси</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Сталь для картов — цена по запросу')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
                     Заказать материалы
                 </button>
             </div>
 
+        </div>
+    </section>
+
+    <!-- Price List -->
+    <section id="pricelist" class="py-12 px-6 max-w-7xl mx-auto border-t border-[#D8D3C4] reveal scroll-mt-24">
+        <div class="mb-10">
+            <h2 class="heading-font text-3xl font-extrabold text-[#3A3831] mb-2">Прайс-лист</h2>
+            <p class="text-[#5C594E] text-sm max-w-3xl">Всё на одной странице для школьных закупок. Цены в евро. Доставка, НДС и скидки за количество подтверждаются в письменном предложении.</p>
+        </div>
+
+        <div class="bg-[#F4F2EA] border border-[#D8D3C4] rounded-[2rem] overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm min-w-[560px]">
+                    <thead>
+                        <tr class="bg-[#EBE7D9] border-b border-[#D8D3C4] text-[10px] uppercase tracking-wider text-[#827D70]">
+                            <th class="py-4 px-6 font-bold">Продукт</th>
+                            <th class="py-4 px-6 font-bold">Тип</th>
+                            <th class="py-4 px-6 font-bold">Единица</th>
+                            <th class="py-4 px-6 font-bold text-right">Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#D8D3C4]/70">
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Солнечная электролодка</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Сборочный набор</td>
+                            <td class="py-4 px-6 text-[#827D70]">за комплект</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">5 300 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Электрический карт на солнечной батарее</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Сборочный набор</td>
+                            <td class="py-4 px-6 text-[#827D70]">за комплект</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">3 400 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Робототехника — Хакатон и Робофутбол</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Соревновательный набор</td>
+                            <td class="py-4 px-6 text-[#827D70]">за робота</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">850 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Компьютерное зрение с microbit</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Сборочный набор</td>
+                            <td class="py-4 px-6 text-[#827D70]">за шт.</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">420 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Карт, готовый к езде</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Собранный транспорт</td>
+                            <td class="py-4 px-6 text-[#827D70]">за карт</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">1 950 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Солнечная лодка, готовая к плаванию</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Собранный транспорт</td>
+                            <td class="py-4 px-6 text-[#827D70]">за лодку</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">3 600 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Искусственный интеллект и машинное обучение</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Курс</td>
+                            <td class="py-4 px-6 text-[#827D70]">за курс</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">Бесплатно</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Практические STEM-воркшопы</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Воркшоп</td>
+                            <td class="py-4 px-6 text-[#827D70]">за воркшоп</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">Бесплатно</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Lego AI и наука</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Аренда</td>
+                            <td class="py-4 px-6 text-[#827D70]">за период</td>
+                            <td class="py-4 px-6 text-right heading-font font-bold text-[#5C594E] whitespace-nowrap">По запросу</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Дополнительные мотор-колеса</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Компонент</td>
+                            <td class="py-4 px-6 text-[#827D70]">за шт.</td>
+                            <td class="py-4 px-6 text-right heading-font font-bold text-[#5C594E] whitespace-nowrap">По запросу</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Сталь для картов</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Материал</td>
+                            <td class="py-4 px-6 text-[#827D70]">за заказ</td>
+                            <td class="py-4 px-6 text-right heading-font font-bold text-[#5C594E] whitespace-nowrap">По запросу</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button onclick="openOrderModal(event, 'Запрос полного прайс-листа / предложения')" class="bg-[#3A3831] hover:bg-[#5C594E] text-[#F4F2EA] font-bold px-8 py-4 rounded-xl transition-all">
+                Запросить письменное предложение
+            </button>
         </div>
     </section>
 
@@ -312,7 +954,7 @@
                     <div class="w-10 h-10 bg-[#EBE7D9] border border-[#D8D3C4] rounded-xl flex items-center justify-center">
                         <span class="text-[#3A3831] font-bold text-lg">A</span>
                     </div>
-                    <span class="heading-font text-[#3A3831] font-bold text-xl">AurinkoLab Store</span>
+                    <span class="heading-font text-[#3A3831] font-bold text-xl">Магазин AurinkoLab</span>
                 </div>
                 <p class="text-[#5C594E]">Оборудование и материалы для инновационного обучения.</p>
             </div>
@@ -321,7 +963,8 @@
                 <ul class="space-y-3">
                     <li><a href="https://espoo.aurinkolab.fi" class="hover:text-[#3A3831] transition">Кампус в Эспоо</a></li>
                     <li><a href="https://camps.aurinkolab.fi" class="hover:text-[#3A3831] transition">Летние лагеря</a></li>
-                    <li><a href="https://project.aurinkolab.fi" class="hover:text-[#3A3831] transition">Проекты Go-Kart</a></li>
+                    <li><a href="https://project.aurinkolab.fi" class="hover:text-[#3A3831] transition">Проекты картов</a></li>
+                    <li><a href="#pricelist" class="hover:text-[#3A3831] transition">Прайс-лист</a></li>
                 </ul>
             </div>
             <div>
@@ -329,54 +972,55 @@
                 <ul class="space-y-3">
                     <li><a href="mailto:info@aurinkolab.fi" class="hover:text-[#3A3831] transition">info@aurinkolab.fi</a></li>
                     <li><a href="tel:+358453123388" class="hover:text-[#3A3831] transition">+358 45 3123388</a></li>
-                    <li>Vanhan-Mankkaan kuja 2, Эспоо</li>
+                    <li>Vanhan-Mankkaan kuja 2, Espoo</li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-[#3A3831] mb-4 uppercase tracking-wider">Предоставлено</h4>
-                <p class="text-[#5C594E]">Все комплекты и материалы разработаны и предоставлены объединением <strong>AurinkoLab</strong>.</p>
+                <p class="text-[#5C594E]">Все наборы и материалы разработаны и предоставляются <strong>AurinkoLab</strong>.</p>
+                <p class="text-[#827D70] text-xs mt-3">Цены в евро. Доставка и НДС подтверждаются в предложении.</p>
             </div>
         </div>
 
         <div class="mt-12 border-t border-[#D8D3C4] pt-6 text-center">
-            <p class="text-[#827D70] text-xs">&copy; 2026 AurinkoLab Store. Все права защищены.</p>
+            <p class="text-[#827D70] text-xs">&copy; 2026 Магазин AurinkoLab. Все права защищены.</p>
         </div>
     </footer>
 
     <!-- ORDER / INQUIRY MODAL -->
     <div id="orderModal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-[#3A3831]/40 backdrop-blur-sm transition-opacity" onclick="closeOrderModal()">
         <div class="bg-[#F4F2EA] border border-[#D8D3C4] p-8 rounded-[2rem] max-w-lg w-full mx-4 relative shadow-2xl max-h-[90vh] overflow-y-auto modal-scroll" onclick="event.stopPropagation()">
-            
-            <button onclick="closeOrderModal()" class="absolute top-6 right-6 text-[#827D70] hover:text-[#3A3831] transition-colors">
+
+            <button onclick="closeOrderModal()" class="absolute top-6 right-6 text-[#827D70] hover:text-[#3A3831] transition-colors" aria-label="Закрыть">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
-            
-            <h3 class="heading-font text-3xl font-bold text-[#3A3831] mb-2 text-center">Запрос комплекта</h3>
-            <p class="text-xs text-[#827D70] text-center mb-6">Заполните форму, и мы свяжемся с вами для уточнения деталей доставки и оплаты.</p>
-            
+
+            <h3 class="heading-font text-3xl font-bold text-[#3A3831] mb-2 text-center">Запрос набора / позиции</h3>
+            <p class="text-xs text-[#827D70] text-center mb-6">Заполните форму ниже, и мы свяжемся с вами для уточнения деталей доставки и оплаты.</p>
+
             <form action="https://formspree.io/f/xwleoqdd" method="POST" class="space-y-5">
                 <div>
-                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Ваше имя или название организации</label>
-                    <input type="text" name="name" required class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Иван / Школа №...">
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Ваше имя или организация</label>
+                    <input type="text" name="name" required class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Иван / Название школы...">
                 </div>
 
                 <div>
-                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Эл. почта</label>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Электронная почта</label>
                     <input type="email" name="email" required class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="email@example.com">
                 </div>
 
                 <div>
-                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Выбранный товар / комплект</label>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Выбранный продукт / набор</label>
                     <input type="text" id="productInput" name="product" required class="w-full rounded-xl px-4 py-3 transition-colors">
                 </div>
-                
+
                 <div>
-                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Комментарий / Количество</label>
-                    <textarea name="message" rows="3" class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Укажите количество комплектов или вопросы по доставке..."></textarea>
+                    <label class="block text-[#5C594E] text-sm font-bold mb-1">Комментарий / Количество (необязательно)</label>
+                    <textarea name="message" rows="3" class="w-full rounded-xl px-4 py-3 transition-colors" placeholder="Укажите количество или вопросы по доставке..."></textarea>
                 </div>
-                
+
                 <button type="submit" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-4 rounded-xl transition-all mt-2">
                     Отправить запрос
                 </button>
@@ -386,7 +1030,6 @@
 
     <!-- Scripts -->
     <script>
-        // Modal logic
         function openOrderModal(e, productName = '') {
             if(e) e.preventDefault();
             const modal = document.getElementById('orderModal');
@@ -402,13 +1045,15 @@
             modal.classList.remove('flex');
             document.body.style.overflow = 'auto';
         }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeOrderModal();
+        });
 
-        // Mobile menu toggle
         const btn = document.getElementById("menu-btn");
         const menu = document.getElementById("mobile-menu");
-        const lines = btn.querySelectorAll("span");
 
         if(btn && menu) {
+            const lines = btn.querySelectorAll("span");
             btn.addEventListener("click", () => {
                 menu.classList.toggle("hidden");
                 lines[0].classList.toggle("rotate-45");
@@ -417,9 +1062,11 @@
                 lines[2].classList.toggle("-rotate-45");
                 lines[2].classList.toggle("-translate-y-2");
             });
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => menu.classList.add('hidden'));
+            });
         }
 
-        // Scroll reveal logic
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -429,6 +1076,20 @@
             });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const langBtn = document.getElementById("lang-btn");
+        const langDropdown = document.getElementById("lang-dropdown");
+        if (langBtn && langDropdown) {
+            langBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle("hidden");
+            });
+            document.addEventListener("click", (e) => {
+                if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                    langDropdown.classList.add("hidden");
+                }
+            });
+        }
     </script>
 </body>
 </html>
