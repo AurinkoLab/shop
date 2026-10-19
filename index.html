@@ -334,6 +334,46 @@
       </g>
     </symbol>
 
+    <!-- LINE-FOLLOWING ROBOT WORKSHOP -->
+    <symbol id="art-linerobot" viewBox="0 0 320 160">
+      <g fill="#F4F2EA" stroke="#3A3831" stroke-width="2" stroke-linejoin="round">
+        <path d="M28,60 L28,44 L44,32 L60,44 L60,60 Z"/><path d="M252,56 L252,38 L270,26 L288,38 L288,56 Z"/>
+      </g>
+      <g fill="#C4653F"><rect x="39" y="48" width="10" height="12"/><rect x="262" y="42" width="10" height="14"/></g>
+      <rect x="168" y="34" width="12" height="22" rx="2" fill="#9FB3BE" stroke="#3A3831" stroke-width="2"/>
+      <path d="M12,132 C64,132 84,106 130,106 S214,132 308,116" fill="none" stroke="#3A3831" stroke-width="12" stroke-linecap="round"/>
+      <path d="M12,132 C64,132 84,106 130,106 S214,132 308,116" fill="none" stroke="#F4F2EA" stroke-width="2" stroke-dasharray="10 10"/>
+      <g transform="translate(118,52)">
+        <rect x="0" y="6" width="84" height="40" rx="9" fill="#C4653F" stroke="#3A3831" stroke-width="2.5"/>
+        <g fill="#EBE7D9" stroke="#3A3831" stroke-width="2"><rect x="9" y="14" width="16" height="13" rx="3"/><rect x="31" y="14" width="16" height="13" rx="3"/><rect x="53" y="14" width="16" height="13" rx="3"/></g>
+        <rect x="72" y="30" width="8" height="8" rx="2" fill="#E8BC63"/>
+        <rect x="6" y="36" width="72" height="5" fill="#3A3831" opacity=".4"/>
+        <circle cx="20" cy="48" r="9" fill="#3A3831"/><circle cx="20" cy="48" r="3.5" fill="#EBE7D9"/>
+        <circle cx="64" cy="48" r="9" fill="#3A3831"/><circle cx="64" cy="48" r="3.5" fill="#EBE7D9"/>
+      </g>
+    </symbol>
+
+    <!-- BONGAABIRDS STATION -->
+    <symbol id="art-birds" viewBox="0 0 320 160">
+      <g stroke="#A39E8F" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <path d="M198,50 Q207,62 198,74"/><path d="M208,42 Q222,62 208,82"/>
+      </g>
+      <g stroke="#3A3831" stroke-width="3" stroke-linecap="round"><line x1="150" y1="108" x2="150" y2="138"/><line x1="150" y1="122" x2="128" y2="146"/><line x1="150" y1="122" x2="172" y2="146"/></g>
+      <polygon points="150,34 181,52 181,90 150,108 119,90 119,52" fill="#4B5A66" stroke="#3A3831" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="150" cy="71" r="19" fill="#F4F2EA" stroke="#3A3831" stroke-width="2.5"/>
+      <circle cx="150" cy="71" r="9" fill="#9FB3BE"/><circle cx="147" cy="68" r="3" fill="#F4F2EA"/>
+      <g transform="translate(236,44)">
+        <polygon points="-18,4 -34,-4 -30,10" fill="#3A3831"/>
+        <ellipse cx="0" cy="6" rx="18" ry="11" fill="#C4653F" stroke="#3A3831" stroke-width="2"/>
+        <circle cx="15" cy="-3" r="8" fill="#C4653F" stroke="#3A3831" stroke-width="2"/>
+        <polygon points="21,-5 31,-1 21,2" fill="#E8BC63" stroke="#3A3831" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="17" cy="-5" r="1.8" fill="#3A3831"/>
+        <line x1="-2" y1="16" x2="-2" y2="26" stroke="#3A3831" stroke-width="2.5"/><line x1="6" y1="16" x2="6" y2="26" stroke="#3A3831" stroke-width="2.5"/>
+      </g>
+      <line x1="206" y1="72" x2="290" y2="72" stroke="#3A3831" stroke-width="4" stroke-linecap="round"/>
+      <line x1="40" y1="148" x2="296" y2="148" stroke="#A39E8F" stroke-width="2" stroke-dasharray="8 8"/>
+    </symbol>
+
   </defs>
 </svg>
 
@@ -625,6 +665,83 @@
                 </button>
             </div>
 
+            <!-- Line-Following Robots Workshop -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="Line-following robot on a city-map track"><use href="#art-linerobot"/></svg>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">Line-Following Robots Workshop</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Workshop set for 10–30 participants: ten Arduino-compatible line-following robots, a printed city-specific track and robot artwork made for your city or region. Runs as a 1–2 day event.
+                </p>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">3 800 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ workshop set</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>What's in the box</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Ten Arduino-compatible robot kits: two motors, up to four line sensors, wheels, bus body, battery holder, cables and fasteners</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>One shared printed track with a city-specific map</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Robot artwork designed for your city or region</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Spare parts, open-source assembly instructions, code examples and competition rules</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Four hours of remote facilitator training and consultation</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Host provides venue, laptops and tools; kits stay with the community</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">📦 10 Robots + Materials</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">10–30 participants</span>
+                </div>
+                <button onclick="openOrderModal(event, 'Line-Following Robots Workshop — 3 800 €')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Request Kit
+                </button>
+            </div>
+
+            <!-- BongaaBirds Stations -->
+            <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
+                <div class="art-frame h-40 mb-6">
+                    <svg class="art" viewBox="0 0 320 160" role="img" aria-label="BongaaBirds bird-listening station with a singing bird"><use href="#art-birds"/></svg>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-[#3A3831] mb-2">BongaaBirds Stations</h3>
+                <p class="text-[#5C594E] text-sm leading-relaxed mb-5">
+                    Two low-cost stations that recognise bird calls on the device. Students assemble and test them in four lessons, install them outdoors and follow the detections on a shared map.
+                </p>
+
+                <div class="flex items-baseline gap-2 mb-5">
+                    <span class="heading-font text-4xl font-extrabold text-[#3A3831]">1 250 €</span>
+                    <span class="text-xs font-bold text-[#827D70] uppercase tracking-wider">/ 2 stations</span>
+                </div>
+
+                <details class="mb-5">
+                    <summary class="flex items-center justify-between text-xs font-bold text-[#827D70] hover:text-[#3A3831] transition-colors uppercase tracking-wider">
+                        <span>What's in the box</span>
+                        <svg class="chev w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <ul class="mt-4 space-y-2 text-xs text-[#5C594E] leading-relaxed">
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Two station kits: microphone, processing unit, power supply and weatherproof case</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Guidance for each of the four lessons: assembly, AI model testing, installation, analysis</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Access to the bird map</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Project support from AurinkoLab</span></li>
+                        <li class="flex gap-2"><span class="text-[#A39E8F]">—</span><span>Stations listen to birds only: speech is filtered out before any recording is stored</span></li>
+                    </ul>
+                </details>
+
+                <div class="border-t border-[#D8D3C4]/60 pt-4 flex items-center justify-between mb-4 mt-auto">
+                    <span class="text-xs font-bold text-[#827D70]">📦 2 Stations + Lessons</span>
+                    <span class="px-3 py-1 rounded-full bg-[#EBE7D9] border border-[#D8D3C4] text-[#827D70] text-[10px] font-bold uppercase tracking-wider">Ages 10+</span>
+                </div>
+                <button onclick="openOrderModal(event, 'BongaaBirds Stations (2 stations) — 1 250 €')" class="w-full bg-[#EBE7D9] hover:bg-[#D8D3C4] border border-[#D8D3C4] text-[#3A3831] font-bold py-3 rounded-xl transition-all">
+                    Request Kit
+                </button>
+            </div>
+
             <!-- Item 5 — AI & ML (free) -->
             <div class="group flex flex-col bg-[#F4F2EA] border border-[#D8D3C4] hover:border-[#3A3831] rounded-[2rem] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl p-8">
                 <div class="art-frame h-40 mb-6">
@@ -868,6 +985,18 @@
                             <td class="py-4 px-6 text-[#5C594E]">Build kit</td>
                             <td class="py-4 px-6 text-[#827D70]">per unit</td>
                             <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">420 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">Line-Following Robots Workshop</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Workshop set</td>
+                            <td class="py-4 px-6 text-[#827D70]">per set (10 robots)</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">3 800 €</td>
+                        </tr>
+                        <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
+                            <td class="py-4 px-6 font-bold text-[#3A3831]">BongaaBirds Stations</td>
+                            <td class="py-4 px-6 text-[#5C594E]">Build kit</td>
+                            <td class="py-4 px-6 text-[#827D70]">per 2 stations</td>
+                            <td class="py-4 px-6 text-right heading-font font-extrabold text-[#3A3831] text-base whitespace-nowrap">1 250 €</td>
                         </tr>
                         <tr class="hover:bg-[#EBE7D9]/50 transition-colors">
                             <td class="py-4 px-6 font-bold text-[#3A3831]">Go-Kart, Ready to Drive</td>
